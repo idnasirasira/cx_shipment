@@ -52,3 +52,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $route['default_controller'] = 'auth/login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+// database reset
+$route['admin/settings/developer/database-reset'] = 'admin/settings/DatabaseReset';

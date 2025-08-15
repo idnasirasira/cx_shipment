@@ -63,7 +63,15 @@ $config['menu'] = array(
                     array('name' => 'Customers', 'url' => 'admin/users/customers'),
                     array('name' => 'Roles', 'url' => 'admin/users/roles')
                 )
-            )
+            ),
+            array(
+                'name' => 'Developer Settings',
+                'icon' => 'bi bi-gear',
+                'url' => 'admin/settings/developer',
+                'submenu' => array(
+                    array('name' => 'Developer Settings', 'url' => 'admin/settings/developer'),
+                )
+            ),
         )
     )
 );

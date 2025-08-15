@@ -49,7 +49,21 @@
                     foreach ($section['items'] as $item) {
                         $hasSubmenu = isset($item['submenu']);
                         $url = isset($item['url']) ? base_url($item['url']) : '#';
+                        // if ($item['name'] == "Developer Settings") {
+                        //     echo $url;
+                        //     die();
+                        // }
                         $active = is_menu_active($url);
+                        $submenu_active = false;
+
+                        // $active set active if the submenu is active to the current url
+                        if ($hasSubmenu) {
+                            foreach ($item['submenu'] as $submenu) {
+                                $submenuUrl = isset($submenu['url']) ? base_url($submenu['url']) : '#';
+                                $submenu_active = is_menu_active($submenuUrl);
+                            }
+                        }
+
 
                         echo "<li class='sidebar-item " . ($hasSubmenu ? 'has-sub ' : '') . $active . "'>";
 
@@ -60,7 +74,7 @@
                         echo "</a>";
 
                         if ($hasSubmenu) {
-                            echo "<ul class='submenu'>";
+                            echo "<ul class='submenu " . ($submenu_active ? 'active' : '') . "'>";
                             foreach ($item['submenu'] as $submenu) {
                                 $submenuUrl = isset($submenu['url']) ? base_url($submenu['url']) : '#';
                                 $submenu_active = is_menu_active($submenuUrl);

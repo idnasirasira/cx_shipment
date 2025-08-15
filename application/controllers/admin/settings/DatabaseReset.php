@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Database extends MY_Controller
+class DatabaseReset extends MY_Controller
 {
     public function __construct()
     {
@@ -28,10 +28,10 @@ class Database extends MY_Controller
             'last_reset' => $this->get_last_reset_time()
         ];
 
-        $this->pageScripts = ['assets/js/database-reset.js'];
+        $this->pageScripts = ['assets/js/admin/settings/developer/database-reset.js'];
         $this->pageStyles = [];
 
-        $this->loadView('admin/database/reset', 'Database Reset', $data);
+        $this->loadView('admin/settings/developer/database-reset', 'Database Reset', $data);
     }
 
     /**

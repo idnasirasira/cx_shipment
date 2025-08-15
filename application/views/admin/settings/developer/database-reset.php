@@ -9,6 +9,7 @@
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('admin/settings/developer') ?>">Developer Settings</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Database Reset</li>
                     </ol>
                 </nav>
@@ -34,11 +35,11 @@
                             <li><strong>All existing data will be permanently lost!</strong></li>
                         </ul>
                     </div>
-                    
+
                     <?php if ($last_reset): ?>
-                    <div class="alert alert-info">
-                        <strong>Last Reset:</strong> <?= $last_reset ?>
-                    </div>
+                        <div class="alert alert-info">
+                            <strong>Last Reset:</strong> <?= $last_reset ?>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -70,17 +71,17 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($sql_files as $index => $file): ?>
-                                    <tr>
-                                        <td><?= $index + 1 ?></td>
-                                        <td>
-                                            <code><?= $file['filename'] ?></code>
-                                        </td>
-                                        <td><?= number_format($file['size']) ?> bytes</td>
-                                        <td><?= $file['modified'] ?></td>
-                                        <td>
-                                            <span class="badge bg-success">Ready</span>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td><?= $index + 1 ?></td>
+                                            <td>
+                                                <code><?= $file['filename'] ?></code>
+                                            </td>
+                                            <td><?= number_format($file['size']) ?> bytes</td>
+                                            <td><?= $file['modified'] ?></td>
+                                            <td>
+                                                <span class="badge bg-success">Ready</span>
+                                            </td>
+                                        </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -101,13 +102,13 @@
                     <form id="resetForm">
                         <div class="form-group">
                             <label for="confirmation" class="form-label">Confirmation Code</label>
-                            <input type="text" class="form-control" id="confirmation" name="confirmation" 
-                                   placeholder="Type 'RESET_DATABASE' to confirm" required>
+                            <input type="text" class="form-control" id="confirmation" name="confirmation"
+                                placeholder="Type 'RESET_DATABASE' to confirm" required>
                             <div class="form-text">
                                 To confirm this action, please type <code>RESET_DATABASE</code> in the field above.
                             </div>
                         </div>
-                        
+
                         <div class="form-group mt-4">
                             <button type="submit" class="btn btn-danger" id="resetBtn" disabled>
                                 <i class="bi bi-trash"></i> Reset Database

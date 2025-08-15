@@ -64,28 +64,5 @@
             </div>
         </div>
 
-        <?php if (ENVIRONMENT === 'development'): ?>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Developer Tools</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="alert alert-warning">
-                                <h6 class="alert-heading">⚠️ Development Environment</h6>
-                                <p class="mb-0">These tools are only available in development mode.</p>
-                            </div>
-                            <a href="<?= base_url('admin/database') ?>" class="btn btn-danger">
-                                <i class="bi bi-database"></i> Database Reset
-                            </a>
-                            <p class="text-muted mt-2">
-                                Reset the database to its initial state using SQL migration files.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
     </section>
 </div>
