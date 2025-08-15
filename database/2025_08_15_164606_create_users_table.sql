@@ -1,38 +1,33 @@
 -- Migration: create_users_table (combined)
 -- Created at: 2025-08-15 16:46:06
 -- Purpose: Fresh create users table with indexes + seed default admin
-SET @OLD_FK := @@FOREIGN_KEY_CHECKS;
-SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `users`;
-SET FOREIGN_KEY_CHECKS = @OLD_FK;
 CREATE TABLE `users` (
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK',
-    `role_id` INT UNSIGNED NOT NULL COMMENT 'FK: roles.id',
-    `username` VARCHAR(50) NOT NULL COMMENT 'Unique login name',
-    `email` VARCHAR(191) NOT NULL COMMENT 'Unique email (191 for utf8mb4 index)',
-    `password` VARCHAR(255) NOT NULL COMMENT 'Password hash',
-    `first_name` VARCHAR(50) NULL,
-    `last_name` VARCHAR(50) NULL,
-    `phone` VARCHAR(20) NULL COMMENT 'User phone number',
-    `address` TEXT NULL COMMENT 'User address',
-    `profile_picture` VARCHAR(255) NULL COMMENT 'Profile picture filename',
-    `is_active` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1=active,0=inactive',
-    `last_login` TIMESTAMP NULL DEFAULT NULL COMMENT 'Last login timestamp',
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `role_id` INT NOT NULL,
+    `username` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
+    `first_name` VARCHAR(50),
+    `last_name` VARCHAR(50),
+    `phone` VARCHAR(20),
+    `address` TEXT,
+    `profile_picture` VARCHAR(255),
+    `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+    `last_login` TIMESTAMP NULL,
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+    `deleted_at` TIMESTAMP NULL,
     PRIMARY KEY (`id`),
-    -- unique
     UNIQUE KEY `uq_users_username` (`username`),
     UNIQUE KEY `uq_users_email` (`email`),
-    -- indexes
     KEY `idx_users_role_id` (`role_id`),
     KEY `idx_users_is_active` (`is_active`),
     KEY `idx_users_created_at` (`created_at`),
     KEY `idx_users_last_login` (`last_login`),
     CONSTRAINT `fk_users_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'Application users';
--- Seed default admin (role "admin")
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+-- Seed admin (hanya insert jika role 'admin' ada; kalau belum ada, SELECT ini nol baris)
 INSERT INTO `users` (
         `role_id`,
         `username`,
@@ -45,8 +40,8 @@ INSERT INTO `users` (
 SELECT r.`id`,
     'admin',
     'admin@example.com',
-    -- password default: admin123 (bcrypt)
     '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+    -- admin123
     'System',
     'Administrator',
     1
@@ -57,6 +52,7 @@ WHERE r.`name` = 'admin'
         FROM `users` u
         WHERE u.`username` = 'admin'
     );
+-- (opsional) lengkapi field admin jika kosong
 UPDATE `users`
 SET `phone` = '+1234567890',
     `address` = 'System Administrator Address',
