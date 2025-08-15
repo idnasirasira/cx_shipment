@@ -199,3 +199,6 @@ composer.phar
 application/config/database.php
 application/config/config.php
 application/config/email.php
+
+# template
+templates
