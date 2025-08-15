@@ -298,7 +298,8 @@ cx_shipment/
 │   │   ├── admin/                # Admin controllers
 │   │   │   ├── Dashboard.php     # Admin dashboard
 │   │   │   └── Database.php      # Database management
-│   │   └── Auth.php              # Authentication controller
+│   │   ├── Auth.php              # Authentication controller
+│   │   └── Test.php              # Test controller
 │   ├── core/
 │   │   └── MY_Controller.php     # Base controller
 │   ├── helpers/

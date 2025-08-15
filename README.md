@@ -135,7 +135,10 @@ cx_shipment/
 │   │   └── database.php          # Database config
 │   ├── controllers/
 │   │   ├── Auth.php              # Authentication controller
-│   │   └── Test.php              # Test controller
+│   │   ├── Test.php              # Test controller
+│   │   └── admin/                # Admin controllers
+│   │       ├── Dashboard.php     # Admin dashboard
+│   │       └── Database.php      # Database management
 │   ├── helpers/
 │   │   └── config_helper.php     # Configuration helpers
 │   └── views/
@@ -237,7 +240,6 @@ Visit `http://localhost/cx_shipment/test` to verify:
 - **Homepage**: `http://localhost/cx_shipment/`
 - **Login**: `http://localhost/cx_shipment/auth/login`
 - **Test**: `http://localhost/cx_shipment/test`
-- **Test with params**: `http://localhost/cx_shipment/test/params/123/abc`
 
 ## 🐛 Troubleshooting
 
