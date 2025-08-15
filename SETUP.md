@@ -1,11 +1,22 @@
-# CodeIgniter 3 Project Setup Guide
+# CodeIgniter 3 Shipment Management System - Setup Guide
 
-This guide will help you set up the project for your local development environment.
+This guide will help you set up the CX Shipment Management System for your local development environment.
+
+## Project Overview
+
+The CX Shipment Management System is a comprehensive web application built with CodeIgniter 3 that provides:
+
+- **User Authentication System** - Login, registration, and password recovery
+- **Admin Dashboard** - Centralized management interface
+- **Role-Based Access Control** - User roles and permissions system
+- **Database Management** - Built-in database reset tools for development
+- **Modern UI Framework** - Bootstrap-based responsive design
+- **Environment Configuration** - Multi-environment support (development, testing, production)
 
 ## Prerequisites
 
 - PHP 7.0 or higher
-- MySQL/MariaDB or SQLite
+- MySQL/MariaDB (MAMP/XAMPP recommended for local development)
 - Web server (Apache/Nginx) or PHP built-in server
 - Composer (optional, for dependency management)
 
@@ -35,13 +46,41 @@ CI_ENV=development
 # Database Configuration
 DB_HOST=localhost
 DB_USERNAME=root
-DB_PASSWORD=your_password
+DB_PASSWORD=root
 DB_DATABASE=cx_shipment_dev
 DB_DRIVER=mysqli
 
 # Application Configuration
+# Note: Adjust the port number based on your local setup
+# Common configurations:
+# - XAMPP: http://localhost/cx_shipment/
+# - MAMP: http://localhost:8888/cx_shipment/
+# - Custom: http://localhost:YOUR_PORT/cx_shipment/
 BASE_URL=http://localhost/cx_shipment/
 ENCRYPTION_KEY=your-32-character-encryption-key-here
+
+# Email Configuration
+SMTP_HOST=localhost
+SMTP_PORT=1025
+SMTP_USERNAME=
+SMTP_PASSWORD=
+SMTP_ENCRYPTION=
+
+# Debug Settings
+DISPLAY_ERRORS=true
+LOG_THRESHOLD=4
+
+# Upload Settings
+UPLOAD_PATH=./uploads/
+MAX_FILE_SIZE=2048
+
+# Session Settings
+SESSION_EXPIRATION=7200
+SESSION_MATCH_IP=false
+
+# Cache Settings
+CACHE_ENABLED=false
+CACHE_EXPIRES=7200
 ```
 
 ### 3. Create Required Directories
@@ -62,7 +101,7 @@ chmod 755 application/cache
 
 ### 4. Database Setup
 
-#### Option A: MySQL/MariaDB
+#### Option A: MySQL/MariaDB (Recommended)
 
 1. Create a new database:
 
@@ -70,11 +109,32 @@ chmod 755 application/cache
 CREATE DATABASE cx_shipment_dev CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 
-2. Import the database schema (if available):
+2. Import the database schema files in order:
 
 ```bash
-mysql -u root -p cx_shipment_dev < database/schema.sql
+# Import roles table
+mysql -u root -p cx_shipment_dev < database/2025_08_15_164216_create_roles_table.sql
+
+# Import permissions table
+mysql -u root -p cx_shipment_dev < database/2025_08_15_164445_create_permissions_table.sql
+
+# Import users table (includes default admin user)
+mysql -u root -p cx_shipment_dev < database/2025_08_15_164606_create_users_table.sql
 ```
+
+**Note**: If you're using a different port for MySQL (e.g., MAMP uses port 8889), specify it in the connection:
+
+```bash
+mysql -u root -p -h localhost -P 8889 cx_shipment_dev < database/2025_08_15_164216_create_roles_table.sql
+```
+
+#### Default Admin Credentials
+
+After importing the database, you can log in with:
+
+- **Username**: `admin`
+- **Email**: `admin@example.com`
+- **Password**: `admin123`
 
 #### Option B: SQLite (for testing)
 
@@ -82,29 +142,12 @@ The testing environment is configured to use SQLite by default.
 
 ### 5. Configure .htaccess
 
-The project includes different `.htaccess` files for different environments:
-
-#### For Development:
-
-```bash
-cp .htaccess.development .htaccess
-```
-
-#### For Production:
-
-```bash
-cp .htaccess.production .htaccess
-```
-
-#### Default .htaccess:
-
-The main `.htaccess` file is configured for general use and includes:
+The project includes a configured `.htaccess` file with:
 
 - URL rewriting for clean URLs
-- Security headers
-- Compression and caching
-- File access control
-- PHP settings optimization
+- Authorization header support
+- Trailing slash handling
+- Front controller pattern
 
 ### 6. Start Development Server
 
@@ -114,43 +157,89 @@ The main `.htaccess` file is configured for general use and includes:
 php -S localhost:8000
 ```
 
-#### Using Apache/Nginx
+#### Using MAMP/XAMPP
 
 Configure your web server to point to the project directory.
 
-### 7. Test URL Rewriting
+### 7. Test the Application
 
-After setting up your environment, test that URL rewriting is working:
+After setting up your environment, test the following URLs (adjust the port number based on your setup):
 
-#### Test URLs (should work without index.php):
+#### Authentication Pages:
 
-- **Homepage**: `http://localhost/cx_shipment/`
-- **Welcome page**: `http://localhost/cx_shipment/welcome`
-- **Welcome index**: `http://localhost/cx_shipment/welcome/index`
-- **Test page**: `http://localhost/cx_shipment/test`
-- **Test hello**: `http://localhost/cx_shipment/test/hello`
-- **Test with params**: `http://localhost/cx_shipment/test/params/123/abc`
+- **Login**: `http://localhost/cx_shipment/auth/login`
+- **Register**: `http://localhost/cx_shipment/auth/register`
+- **Forgot Password**: `http://localhost/cx_shipment/auth/forgot-password`
 
-#### If URLs don't work:
+#### Admin Dashboard:
 
-1. **Check .htaccess**: Make sure the `.htaccess` file is in the project root
-2. **Check mod_rewrite**: Ensure Apache mod_rewrite is enabled
-3. **Check permissions**: Ensure `.htaccess` is readable by the web server
-4. **Check environment**: Verify your environment is set correctly
+- **Dashboard**: `http://localhost/cx_shipment/admin/dashboard`
+- **Database Reset** (Development only): `http://localhost/cx_shipment/admin/database`
 
-#### Enable mod_rewrite on Apache:
+**Common URL variations:**
 
-```bash
-# Ubuntu/Debian
-sudo a2enmod rewrite
-sudo systemctl restart apache2
+- XAMPP: `http://localhost/cx_shipment/`
+- MAMP: `http://localhost:8888/cx_shipment/`
+- Custom port: `http://localhost:YOUR_PORT/cx_shipment/`
 
-# macOS (MAMP)
-# mod_rewrite should be enabled by default
+## Implemented Features
 
-# Windows (XAMPP)
-# mod_rewrite should be enabled by default
-```
+### 1. Authentication System
+
+- **Login/Logout functionality** - User authentication with session management
+- **User Registration** - New user account creation
+- **Password Recovery** - Forgot password functionality
+- **Session Management** - Secure session handling with configurable timeouts
+
+### 2. Admin Dashboard
+
+- **Modern UI** - Bootstrap-based responsive design
+- **Navigation System** - Breadcrumb navigation and menu highlighting
+- **Development Tools** - Database reset functionality (development environment only)
+- **Role-Based Access** - Different views based on user roles
+
+### 3. Database Structure
+
+#### Users Table
+
+- User authentication and profile information
+- Role-based access control
+- Soft delete functionality
+- Audit timestamps
+
+#### Roles Table
+
+- User role definitions
+- Default roles: admin, user, manager
+
+#### Permissions Table
+
+- Granular permission system
+- Role-permission relationships
+
+### 4. Layout System
+
+- **Custom Layout Library** - Flexible template system
+- **Multiple Layouts** - Guest and admin layouts
+- **Asset Management** - CSS/JS file organization
+- **Responsive Design** - Mobile-friendly interface
+
+### 5. Helper Functions
+
+#### Configuration Helpers
+
+- `env()` - Environment variable access
+- `config()` - Configuration value retrieval
+- `is_development()`, `is_production()`, `is_testing()` - Environment checks
+
+#### Asset Helpers
+
+- `asset_url()` - Asset URLs with cache busting
+- `upload_url()` - Upload file URLs
+
+#### UI Helpers
+
+- `is_menu_active()` - Menu highlighting based on current URL
 
 ## Environment Configuration
 
@@ -160,123 +249,74 @@ sudo systemctl restart apache2
 - **testing**: For automated testing and CI/CD
 - **production**: For production deployment with security optimizations
 
-## .htaccess Configuration
+### Environment-Specific Settings
 
-### Available .htaccess Files
+#### Development Environment
 
-- **`.htaccess`** - Main configuration with balanced security and performance
-- **`.htaccess.development`** - Relaxed security for easier debugging
-- **`.htaccess.production`** - Strict security and performance optimizations
+- Debug mode enabled
+- Error display on
+- Database debugging enabled
+- Relaxed security settings
+- Development tools available
 
-### Key Features
+#### Production Environment
 
-#### URL Rewriting
+- Debug mode disabled
+- Error display off
+- Strict security settings
+- Performance optimizations
+- Development tools hidden
 
-- Clean URLs without `index.php`
-- Automatic trailing slash handling
-- Authorization header support
+## Development Tools
 
-#### Security Headers
+### Database Reset Tool
 
-- X-Content-Type-Options: nosniff
-- X-Frame-Options: DENY (production) / SAMEORIGIN (development)
-- X-XSS-Protection: 1; mode=block
-- Content Security Policy
-- HSTS (HTTP Strict Transport Security) in production
+Available in development environment at `/admin/database`:
 
-#### Performance Optimizations
+- Resets database to initial state
+- Re-imports all migration files
+- Useful for testing and development
+- **Only available in development mode**
 
-- Gzip compression for text files
-- Browser caching with appropriate expiration times
-- PHP settings optimization
+### Configuration Management
 
-#### File Access Control
+The system uses a multi-layered configuration approach:
 
-- Protection of sensitive files (.env, composer files, logs)
-- Prevention of PHP execution in uploads directory
-- Access control for application and system directories
+1. **Environment Variables** (`.env` file)
+2. **Environment-Specific Configs** (`application/config/environments/`)
+3. **Main Configuration** (`application/config/config.php`)
 
-#### Environment-Specific Settings
+## File Structure
 
-**Development:**
-
-- Relaxed security for easier debugging
-- Error display enabled
-- Higher memory and upload limits
-- Shorter cache times for quick development
-
-**Production:**
-
-- Strict security headers
-- Error display disabled
-- Optimized memory and upload limits
-- Aggressive caching for performance
-- Additional security measures
-
-### Environment Detection
-
-The application automatically detects the environment using:
-
-1. `CI_ENV` environment variable
-2. `.env` file in the project root
-3. Defaults to `development` if none is set
-
-### Configuration Files
-
-- `application/config/environments/development.php` - Development settings
-- `application/config/environments/testing.php` - Testing settings
-- `application/config/environments/production.php` - Production settings
-
-## Helper Functions
-
-The project includes helper functions for easy configuration access:
-
-```php
-// Get environment variable
-$db_host = env('DB_HOST', 'localhost');
-
-// Get configuration value
-$base_url = config('base_url');
-
-// Check environment
-if (is_development()) {
-    // Development-specific code
-}
-
-// Asset URLs with cache busting
-echo asset_url('css/style.css');
-
-// Upload URLs
-echo upload_url('images/photo.jpg');
 ```
-
-## Team Development Workflow
-
-### 1. Initial Setup
-
-Each team member should:
-
-1. Clone the repository
-2. Copy `env.example` to `.env`
-3. Customize `.env` for their local environment
-4. Create required directories
-5. Set up their local database
-
-### 2. Configuration Changes
-
-When adding new configuration options:
-
-1. Add the option to all environment files (`development.php`, `testing.php`, `production.php`)
-2. Update `env.example` with the new variable
-3. Document the change in this file
-
-### 3. Database Changes
-
-When making database schema changes:
-
-1. Create a migration file
-2. Test in development environment
-3. Update the schema file for new team members
+cx_shipment/
+├── application/
+│   ├── config/
+│   │   ├── environments/          # Environment-specific configs
+│   │   └── config.php            # Main configuration
+│   ├── controllers/
+│   │   ├── admin/                # Admin controllers
+│   │   │   ├── Dashboard.php     # Admin dashboard
+│   │   │   └── Database.php      # Database management
+│   │   └── Auth.php              # Authentication controller
+│   ├── core/
+│   │   └── MY_Controller.php     # Base controller
+│   ├── helpers/
+│   │   ├── config_helper.php     # Configuration helpers
+│   │   └── global_helper.php     # Global utility functions
+│   ├── libraries/
+│   │   └── layout.php            # Layout management
+│   └── views/
+│       ├── auth/                 # Authentication views
+│       ├── admin/                # Admin views
+│       └── layouts/              # Layout templates
+├── assets/                       # Frontend assets
+├── database/                     # Database migration files
+├── uploads/                      # File upload directory
+├── .env                          # Environment configuration
+├── .htaccess                     # URL rewriting rules
+└── index.php                     # Front controller
+```
 
 ## Troubleshooting
 
@@ -291,6 +331,7 @@ Make sure you're accessing the application through the web server, not directly 
 - Check your database credentials in `.env`
 - Ensure the database exists
 - Verify database server is running
+- For MAMP: Use port 8889 for MySQL (if using default MAMP configuration)
 
 #### 3. Permission Errors
 
@@ -308,6 +349,12 @@ chmod 755 application/cache
 - Verify `CI_ENV` is set correctly
 - Ensure `application/config/environments/` directory exists
 
+#### 5. URL Rewriting Not Working
+
+- Ensure Apache mod_rewrite is enabled
+- Check that `.htaccess` file is in project root
+- Verify web server configuration allows `.htaccess` overrides
+
 ### Debug Mode
 
 In development environment, debug information is automatically enabled. You can:
@@ -315,6 +362,7 @@ In development environment, debug information is automatically enabled. You can:
 - View error messages in the browser
 - Check logs in `application/logs/`
 - Use the profiler (if enabled)
+- Access development tools in admin dashboard
 
 ## Security Notes
 
@@ -322,6 +370,7 @@ In development environment, debug information is automatically enabled. You can:
 - Use strong encryption keys in production
 - Keep database credentials secure
 - Regularly update dependencies
+- Change default admin password after first login
 
 ## Production Deployment
 
@@ -334,6 +383,28 @@ For production deployment:
 5. Configure proper email settings
 6. Set up SSL certificates
 7. Configure caching
+8. Disable development tools
+9. Set appropriate file permissions
+
+## Next Steps
+
+### Planned Features
+
+- **Shipment Management** - Create, track, and manage shipments
+- **User Management** - Admin interface for user management
+- **Reporting System** - Analytics and reporting features
+- **API Development** - RESTful API for mobile applications
+- **Email Notifications** - Automated email notifications
+- **File Upload System** - Document and image upload functionality
+
+### Development Guidelines
+
+1. **Follow CodeIgniter 3 conventions**
+2. **Use the layout system** for consistent UI
+3. **Implement proper validation** for all forms
+4. **Add appropriate error handling**
+5. **Write unit tests** for critical functionality
+6. **Document new features** in this setup guide
 
 ## Support
 
@@ -343,3 +414,10 @@ If you encounter issues:
 2. Review the CodeIgniter 3 documentation
 3. Check the application logs in `application/logs/`
 4. Contact the development team
+
+## Version Information
+
+- **CodeIgniter Version**: 3.x
+- **PHP Requirement**: 7.0+
+- **Database**: MySQL 5.7+ / MariaDB 10.2+
+- **Last Updated**: January 2025
