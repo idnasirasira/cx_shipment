@@ -174,7 +174,8 @@ After setting up your environment, test the following URLs (adjust the port numb
 #### Admin Dashboard:
 
 - **Dashboard**: `http://localhost/cx_shipment/admin/dashboard`
-- **Database Reset** (Development only): `http://localhost/cx_shipment/admin/database`
+- **Developer Settings** (Development only): `http://localhost/cx_shipment/admin/settings/developer`
+- **Database Reset** (Development only): `http://localhost/cx_shipment/admin/settings/database-reset`
 
 **Common URL variations:**
 
@@ -195,7 +196,8 @@ After setting up your environment, test the following URLs (adjust the port numb
 
 - **Modern UI** - Bootstrap-based responsive design
 - **Navigation System** - Breadcrumb navigation and menu highlighting
-- **Development Tools** - Database reset functionality (development environment only)
+- **Settings Management** - Organized settings structure with developer tools
+- **Development Tools** - Developer settings and database reset functionality (development environment only)
 - **Role-Based Access** - Different views based on user roles
 
 ### 3. Database Structure
@@ -221,7 +223,7 @@ After setting up your environment, test the following URLs (adjust the port numb
 
 - **Custom Layout Library** - Flexible template system
 - **Multiple Layouts** - Guest and admin layouts
-- **Asset Management** - CSS/JS file organization
+- **Asset Management** - CSS/JS file organization with admin-specific scripts
 - **Responsive Design** - Mobile-friendly interface
 
 ### 5. Helper Functions
@@ -269,13 +271,21 @@ After setting up your environment, test the following URLs (adjust the port numb
 
 ## Development Tools
 
-### Database Reset Tool
+### Development Tools
 
-Available in development environment at `/admin/database`:
+Available in development environment:
+
+#### Database Reset Tool (`/admin/settings/database-reset`)
 
 - Resets database to initial state
 - Re-imports all migration files
 - Useful for testing and development
+- **Only available in development mode**
+
+#### Developer Settings (`/admin/settings/developer`)
+
+- Centralized developer configuration
+- Development environment management
 - **Only available in development mode**
 
 ### Configuration Management
@@ -297,7 +307,9 @@ cx_shipment/
 │   ├── controllers/
 │   │   ├── admin/                # Admin controllers
 │   │   │   ├── Dashboard.php     # Admin dashboard
-│   │   │   └── Database.php      # Database management
+│   │   │   └── settings/         # Settings controllers
+│   │   │       ├── Developer.php # Developer settings
+│   │   │       └── DatabaseReset.php # Database reset
 │   │   ├── Auth.php              # Authentication controller
 │   │   └── Test.php              # Test controller
 │   ├── core/
@@ -310,8 +322,18 @@ cx_shipment/
 │   └── views/
 │       ├── auth/                 # Authentication views
 │       ├── admin/                # Admin views
+│       │   ├── dashboard/        # Dashboard views
+│       │   ├── settings/         # Settings views
+│       │   │   └── developer/    # Developer settings views
+│       │   └── users/            # User management views
 │       └── layouts/              # Layout templates
 ├── assets/                       # Frontend assets
+│   ├── js/                      # JavaScript files
+│   │   ├── admin/               # Admin JavaScript
+│   │   │   ├── dashboard/       # Dashboard scripts
+│   │   │   └── settings/        # Settings scripts
+│   │   └── auth/                # Authentication scripts
+│   └── compiled/                # Compiled assets
 ├── database/                     # Database migration files
 ├── uploads/                      # File upload directory
 ├── .env                          # Environment configuration

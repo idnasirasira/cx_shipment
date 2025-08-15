@@ -138,10 +138,18 @@ cx_shipment/
 │   │   ├── Test.php              # Test controller
 │   │   └── admin/                # Admin controllers
 │   │       ├── Dashboard.php     # Admin dashboard
-│   │       └── Database.php      # Database management
+│   │       └── settings/         # Settings controllers
+│   │           ├── Developer.php # Developer settings
+│   │           └── DatabaseReset.php # Database reset
 │   ├── helpers/
 │   │   └── config_helper.php     # Configuration helpers
 │   └── views/
+│       ├── auth/                 # Authentication views
+│       ├── admin/                # Admin views
+│       │   ├── dashboard/        # Dashboard views
+│       │   ├── settings/         # Settings views
+│       │   └── users/            # User management views
+│       └── layouts/              # Layout templates
 ├── system/                       # CodeIgniter core
 ├── uploads/                      # File uploads
 ├── .htaccess                     # URL rewriting & security
@@ -240,6 +248,8 @@ Visit `http://localhost/cx_shipment/test` to verify:
 - **Homepage**: `http://localhost/cx_shipment/`
 - **Login**: `http://localhost/cx_shipment/auth/login`
 - **Test**: `http://localhost/cx_shipment/test`
+- **Admin Dashboard**: `http://localhost/cx_shipment/admin/dashboard`
+- **Developer Settings**: `http://localhost/cx_shipment/admin/settings/developer`
 
 ## 🐛 Troubleshooting
 

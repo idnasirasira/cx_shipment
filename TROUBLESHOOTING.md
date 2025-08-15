@@ -320,12 +320,22 @@ Use the test controller to verify everything is working:
    http://localhost:8888/cx_shipment/test
    ```
 
-2. **Check environment detection:**
+2. **Access development tools:**
+
+   ```
+   # Developer settings
+   http://localhost/cx_shipment/admin/settings/developer
+
+   # Database reset
+   http://localhost/cx_shipment/admin/settings/database-reset
+   ```
+
+3. **Check environment detection:**
 
    - Should show current environment
    - Should display correct base_url
 
-3. **Test URL rewriting:**
+4. **Test URL rewriting:**
    - All links should work without `index.php`
    - Parameters should be passed correctly
 

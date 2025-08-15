@@ -198,5 +198,6 @@ The application automatically detects environment:
 
 1. **Check logs**: `application/logs/`
 2. **Test configuration**: Visit `http://localhost/cx_shipment/test`
-3. **Review documentation**: `CONFIGURATION_GUIDE.md`
-4. **Troubleshoot issues**: `TROUBLESHOOTING.md`
+3. **Developer tools**: Visit `http://localhost/cx_shipment/admin/settings/developer`
+4. **Review documentation**: `CONFIGURATION_GUIDE.md`
+5. **Troubleshoot issues**: `TROUBLESHOOTING.md`

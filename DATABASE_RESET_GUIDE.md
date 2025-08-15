@@ -14,7 +14,8 @@ This feature allows developers to reset the database to its initial state by exe
 
 1. Navigate to the admin dashboard: `http://your-domain/admin/dashboard`
 2. In development mode, you'll see a "Developer Tools" section
-3. Click the "Database Reset" button
+3. Click the "Developer Settings" button
+4. Click the "Database Reset" button
 
 ### 2. Reset Process
 
@@ -108,8 +109,8 @@ database/
 
 ## API Endpoints
 
-- `GET /admin/database` - Show reset interface
-- `POST /admin/database/reset` - Execute database reset
+- `GET /admin/settings/database-reset` - Show reset interface
+- `POST /admin/settings/database-reset/reset` - Execute database reset
 
 ## Dependencies
 
