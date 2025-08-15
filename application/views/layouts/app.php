@@ -4,6 +4,9 @@
 <head>
     <?php $this->load->view('layouts/_partials/head'); ?>
 
+    <link rel="stylesheet" href="<?= base_url('assets/extensions/simple-datatables/style.css') ?>">
+    <link rel="stylesheet" crossorigin href="<?= base_url('assets/compiled/css/table-datatable.css') ?>">
+
     <?php foreach ($styles as $style) : ?>
         <link rel="stylesheet" href="<?= base_url($style); ?>">
     <?php endforeach; ?>
@@ -31,7 +34,7 @@
 
     <script src="<?= base_url("assets/compiled/js/app.js") ?>"></script>
     <script src="<?= base_url("assets/extensions/jquery/jquery.min.js") ?>"></script>
-
+    <script src="<?= base_url("assets/extensions/simple-datatables/umd/simple-datatables.js") ?>"></script>
 
     <?php foreach ($scripts as $script) : ?>
         <script src="<?= base_url($script); ?>"></script>
