@@ -7,6 +7,11 @@ class Test extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
+        // Only allow access in development environment
+        if (ENVIRONMENT !== 'development') {
+            show_error('Database reset is only available in development environment.', 403, 'Access Denied');
+        }
     }
 
     public function index()
@@ -49,5 +54,15 @@ class Test extends CI_Controller
         echo "<pre>";
         print_r($this->db->db_debug);
         echo "</pre>";
+
+        // Test Database Connection
+        echo "<h2>6. Database Connection Test</h2>";
+        $this->load->database();
+        if ($this->db->simple_query('SELECT 1')) {
+            echo "Database Connection: SUCCESS<br>";
+        } else {
+            echo "Database Connection: FAILED<br>";
+            echo "Error: " . $this->db->error()['message'] . "<br>";
+        }
     }
 }
