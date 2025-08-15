@@ -14,7 +14,7 @@ class Dashboard extends MY_Controller
     public function index()
     {
         $data = [];
-        $this->pageScripts =  ['assets/pages/admin/dashboard/index.js'];
+        $this->pageScripts =  ['assets/js/admin/dashboard/index.js'];
         $this->pageStyles =  [];
 
         $this->loadView('admin/dashboard/index', 'Dashboard', $data);

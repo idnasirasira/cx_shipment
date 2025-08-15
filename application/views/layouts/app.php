@@ -25,6 +25,8 @@
     <script src="<?= base_url("assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js") ?>"></script>
 
     <script src="<?= base_url("assets/compiled/js/app.js") ?>"></script>
+    <script src="<?= base_url("assets/extensions/jquery/jquery.min.js") ?>"></script>
+
 
     <?php foreach ($scripts as $script) : ?>
         <script src="<?= base_url($script); ?>"></script>

@@ -20,7 +20,7 @@ class Auth extends MY_Controller
     public function login()
     {
         $data = [];
-        $this->pageScripts =  ['assets/pages/auth/login.js'];
+        $this->pageScripts =  ['assets/js/auth/login.js'];
         $this->pageStyles =  [];
 
         $this->loadView('auth/login', 'Login', $data);
@@ -30,7 +30,7 @@ class Auth extends MY_Controller
     public function forgot_password()
     {
         $data = [];
-        $this->pageScripts =  ['assets/pages/auth/forgot-password.js'];
+        $this->pageScripts =  ['assets/js/auth/forgot-password.js'];
         $this->pageStyles =  [];
 
         $this->loadView('auth/forgot-password', 'Forgot Password', $data);
@@ -39,7 +39,7 @@ class Auth extends MY_Controller
     public function register()
     {
         $data = [];
-        $this->pageScripts =  ['assets/pages/auth/register.js'];
+        $this->pageScripts =  ['assets/js/auth/register.js'];
         $this->pageStyles =  [];
 
         $this->loadView('auth/register', 'Register', []);
