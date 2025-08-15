@@ -8,8 +8,9 @@ This guide helps you resolve common issues with the CodeIgniter 3 project setup.
 
 **Symptoms:**
 
-- URLs like `http://localhost/cx_shipment/index.php/welcome` still work
-- URLs like `http://localhost/cx_shipment/welcome` show 404 errors
+- URLs like `http://localhost/cx_shipment/index.php/auth/login` still work
+- URLs like `http://localhost/cx_shipment/auth/login` show 404 errors
+- URLs like `http://localhost:8888/cx_shipment/auth/login` show 404 errors (if using custom port)
 
 **Solutions:**
 
@@ -140,7 +141,11 @@ This guide helps you resolve common issues with the CodeIgniter 3 project setup.
 2. **Test database connection:**
 
    ```bash
+   # Standard connection
    mysql -u root -p -h localhost
+
+   # If using custom port (e.g., MAMP uses 8889)
+   mysql -u root -p -h localhost -P 8889
    ```
 
 3. **Check database exists:**
@@ -158,9 +163,11 @@ This guide helps you resolve common issues with the CodeIgniter 3 project setup.
 
    # macOS (MAMP)
    # Check MAMP preferences -> MySQL
+   # Default MySQL port: 8889
 
    # Windows (XAMPP)
    # Check XAMPP Control Panel
+   # Default MySQL port: 3306
    ```
 
 ## File Permission Issues
@@ -191,6 +198,68 @@ This guide helps you resolve common issues with the CodeIgniter 3 project setup.
 
    # Change ownership if needed
    sudo chown www-data:www-data uploads/
+   ```
+
+## Port Configuration Issues
+
+### Problem: Wrong port in URLs
+
+**Symptoms:**
+
+- Pages load but assets (CSS, JS, images) don't load
+- Links redirect to wrong URLs
+- Database connection works but web interface doesn't
+
+**Solutions:**
+
+1. **Check BASE_URL in .env file:**
+
+   ```bash
+   # Verify your BASE_URL matches your setup
+   grep BASE_URL .env
+   ```
+
+2. **Common BASE_URL configurations:**
+
+   ```bash
+   # XAMPP (default)
+   BASE_URL=http://localhost/cx_shipment/
+
+   # MAMP (default)
+   BASE_URL=http://localhost:8888/cx_shipment/
+
+   # Custom port
+   BASE_URL=http://localhost:YOUR_PORT/cx_shipment/
+   ```
+
+3. **Check database port configuration:**
+
+   ```bash
+   # In your .env file, verify database settings
+   # For MAMP users, you might need to specify port in environment config
+   ```
+
+### Problem: Database connection on wrong port
+
+**Symptoms:**
+
+- "Unable to connect to your database server" error
+- Database exists but connection fails
+
+**Solutions:**
+
+1. **Check database port in environment config:**
+
+   ```php
+   // In application/config/environments/development.php
+   $db['default']['hostname'] = '127.0.0.1';
+   $db['default']['port'] = '8889'; // Add this line for MAMP
+   ```
+
+2. **Test connection with explicit port:**
+
+   ```bash
+   mysql -u root -p -h localhost -P 8889
    ```
 
 ## Environment-Specific Issues
@@ -225,6 +294,7 @@ This guide helps you resolve common issues with the CodeIgniter 3 project setup.
 
 - You're trying to access PHP files directly
 - Always access through the web server
+- Make sure you're using the correct URL format for your setup
 
 ### "Unable to load the requested file"
 
@@ -243,7 +313,11 @@ Use the test controller to verify everything is working:
 1. **Access test page:**
 
    ```
+   # Standard setup
    http://localhost/cx_shipment/test
+
+   # With custom port (e.g., MAMP)
+   http://localhost:8888/cx_shipment/test
    ```
 
 2. **Check environment detection:**
@@ -269,16 +343,23 @@ If you're still having issues:
    tail -f application/logs/log-*.php
    ```
 
-2. **Enable debug mode:**
+2. **Verify your setup configuration:**
+
+   - Check your `.env` file has the correct `BASE_URL` for your port setup
+   - Verify database connection settings match your local environment
+   - Ensure all required directories exist and have proper permissions
+
+3. **Enable debug mode:**
 
    - Set `CI_ENV=development`
    - Check browser developer tools
 
-3. **Verify setup:**
+4. **Verify setup:**
 
    - Follow the setup guide step by step
    - Check all prerequisites are met
+   - Verify port configurations match your local environment
 
-4. **Contact support:**
+5. **Contact support:**
    - Check the CodeIgniter 3 documentation
    - Review the setup guide in SETUP.md

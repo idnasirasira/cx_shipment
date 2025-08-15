@@ -27,10 +27,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |
 | There are three reserved routes:
 |
-|	$route['default_controller'] = 'welcome';
+|	$route['default_controller'] = 'auth/login';
 |
 | This route indicates which controller class should be loaded if the
-| URI contains no data. In the above example, the "welcome" class
+| URI contains no data. In the above example, the "auth/login" class
 | would be loaded.
 |
 |	$route['404_override'] = 'errors/page_missing';

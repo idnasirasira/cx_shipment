@@ -134,7 +134,7 @@ cx_shipment/
 │   │   ├── config.php            # Main application config
 │   │   └── database.php          # Database config
 │   ├── controllers/
-│   │   ├── Welcome.php           # Default controller
+│   │   ├── Auth.php              # Authentication controller
 │   │   └── Test.php              # Test controller
 │   ├── helpers/
 │   │   └── config_helper.php     # Configuration helpers
@@ -235,7 +235,7 @@ Visit `http://localhost/cx_shipment/test` to verify:
 ### Test URLs
 
 - **Homepage**: `http://localhost/cx_shipment/`
-- **Welcome**: `http://localhost/cx_shipment/welcome`
+- **Login**: `http://localhost/cx_shipment/auth/login`
 - **Test**: `http://localhost/cx_shipment/test`
 - **Test with params**: `http://localhost/cx_shipment/test/params/123/abc`
 
