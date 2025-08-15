@@ -6,12 +6,14 @@ class Database extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        // Load database library
 
         // Only allow access in development environment
         if (ENVIRONMENT !== 'development') {
             show_error('Database reset is only available in development environment.', 403, 'Access Denied');
         }
+
+        // Load database library after environment is set
+        $this->load->database();
 
         $this->defaultLayout = 'layouts/app';
     }
@@ -125,9 +127,6 @@ class Database extends MY_Controller
                 'error' => 'No SQL files found in database directory'
             ];
         }
-
-        // Load database
-        $this->load->database();
 
         foreach ($sql_files as $file_info) {
             $filename = $file_info['filename'];

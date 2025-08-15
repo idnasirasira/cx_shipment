@@ -76,7 +76,7 @@
                                 <h6 class="alert-heading">⚠️ Development Environment</h6>
                                 <p class="mb-0">These tools are only available in development mode.</p>
                             </div>
-                            <a href="<?= base_url('database') ?>" class="btn btn-danger">
+                            <a href="<?= base_url('admin/database') ?>" class="btn btn-danger">
                                 <i class="bi bi-database"></i> Database Reset
                             </a>
                             <p class="text-muted mt-2">

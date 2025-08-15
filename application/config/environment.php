@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -10,28 +10,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-// Define the environment
+// Environment should already be defined in index.php
+// This is just a fallback in case it's not
 if (!defined('ENVIRONMENT')) {
-    // Check for environment variable
-    $env = getenv('CI_ENV');
-    
-    if ($env === FALSE) {
-        // Check for .env file
-        $env_file = APPPATH . '../.env';
-        if (file_exists($env_file)) {
-            $env_content = file_get_contents($env_file);
-            if (preg_match('/CI_ENV\s*=\s*(\w+)/', $env_content, $matches)) {
-                $env = $matches[1];
-            }
-        }
-    }
-    
-    // Default to development if no environment is set
-    if ($env === FALSE || !in_array($env, ['development', 'testing', 'production'])) {
-        $env = 'development';
-    }
-    
-    define('ENVIRONMENT', $env);
+    define('ENVIRONMENT', 'development');
 }
 
 // Load environment-specific configuration
@@ -42,6 +24,7 @@ if (file_exists($env_file)) {
     // Fallback to default configuration
     log_message('error', 'Environment configuration file not found: ' . $env_file);
 }
+
 
 // Set error reporting based on environment
 switch (ENVIRONMENT) {

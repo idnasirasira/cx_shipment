@@ -9,58 +9,45 @@ class Test extends CI_Controller
         parent::__construct();
     }
 
-    /**
-     * Test URL rewriting
-     * Access: http://localhost/cx_shipment/test
-     */
     public function index()
     {
-        $data = array(
-            'title' => 'URL Rewriting Test',
-            'message' => 'If you can see this page, URL rewriting is working!',
-            'current_url' => current_url(),
-            'base_url' => base_url(),
-            'environment' => ENVIRONMENT,
-            'timestamp' => date('Y-m-d H:i:s')
-        );
+        echo "<h1>Environment Configuration Test</h1>";
 
-        echo "<h1>{$data['title']}</h1>";
-        echo "<p><strong>{$data['message']}</strong></p>";
-        echo "<ul>";
-        echo "<li><strong>Current URL:</strong> {$data['current_url']}</li>";
-        echo "<li><strong>Base URL:</strong> {$data['base_url']}</li>";
-        echo "<li><strong>Environment:</strong> {$data['environment']}</li>";
-        echo "<li><strong>Timestamp:</strong> {$data['timestamp']}</li>";
-        echo "</ul>";
+        // Test 1: Check environment
+        echo "<h2>1. Environment Detection</h2>";
+        echo "Current Environment: " . ENVIRONMENT . "<br>";
+        echo "Environment File: " . APPPATH . 'config/environments/' . ENVIRONMENT . '.php<br>';
+        echo "File Exists: " . (file_exists(APPPATH . 'config/environments/' . ENVIRONMENT . '.php') ? 'YES' : 'NO') . "<br><br>";
 
-        echo "<h2>Test Links:</h2>";
-        echo "<ul>";
-        echo "<li><a href='" . base_url() . "'>Homepage</a></li>";
-        echo "<li><a href='" . base_url('welcome') . "'>Welcome Page</a></li>";
-        echo "<li><a href='" . base_url('test/hello') . "'>Test Hello</a></li>";
-        echo "</ul>";
-    }
+        // Test 2: Check database configuration
+        echo "<h2>2. Database Configuration</h2>";
+        if (isset($this->db)) {
+            echo "Database Library Loaded: YES<br>";
+            echo "Database Hostname: " . $this->db->hostname . "<br>";
+            echo "Database Name: " . $this->db->database . "<br>";
+            echo "Database Username: " . $this->db->username . "<br>";
+            echo "Database Port: " . $this->db->port . "<br>";
 
-    /**
-     * Test method
-     * Access: http://localhost/cx_shipment/test/hello
-     */
-    public function hello()
-    {
-        echo "<h1>Hello from Test Controller!</h1>";
-        echo "<p>This confirms that URL rewriting is working correctly.</p>";
-        echo "<p><a href='" . base_url('test') . "'>Back to Test</a></p>";
-    }
+            // Test database connection
+            echo "<h3>3. Database Connection Test</h3>";
+            if ($this->db->simple_query('SELECT 1')) {
+                echo "Database Connection: SUCCESS<br>";
+            } else {
+                echo "Database Connection: FAILED<br>";
+                echo "Error: " . $this->db->error()['message'] . "<br>";
+            }
+        } else {
+            echo "Database Library Loaded: NO<br>";
+        }
 
-    /**
-     * Test with parameters
-     * Access: http://localhost/cx_shipment/test/params/123/abc
-     */
-    public function params($param1 = '', $param2 = '')
-    {
-        echo "<h1>Parameter Test</h1>";
-        echo "<p>Parameter 1: " . htmlspecialchars($param1) . "</p>";
-        echo "<p>Parameter 2: " . htmlspecialchars($param2) . "</p>";
-        echo "<p><a href='" . base_url('test') . "'>Back to Test</a></p>";
+        // Test 3: Check loaded configs
+        echo "<h2>4. Loaded Configuration Files</h2>";
+        echo "Autoloaded Configs: " . implode(', ', array_keys($this->config->config)) . "<br>";
+
+        // Test 4: Show current database config array
+        echo "<h2>5. Current Database Config Array</h2>";
+        echo "<pre>";
+        print_r($this->db->db_debug);
+        echo "</pre>";
     }
 }

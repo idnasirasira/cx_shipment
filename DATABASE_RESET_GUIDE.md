@@ -108,8 +108,8 @@ database/
 
 ## API Endpoints
 
-- `GET /database` - Show reset interface
-- `POST /database/reset` - Execute database reset
+- `GET /admin/database` - Show reset interface
+- `POST /admin/database/reset` - Execute database reset
 
 ## Dependencies
 
