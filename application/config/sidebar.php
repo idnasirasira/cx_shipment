@@ -58,7 +58,10 @@ $config['menu'] = array(
             array(
                 'name' => 'User Management',
                 'icon' => 'bi bi-people',
+                'url' => 'admin/users',
                 'submenu' => array(
+                    array('name' => 'All Users', 'url' => 'admin/users/index'),
+                    array('name' => 'Create User', 'url' => 'admin/users/create'),
                     array('name' => 'Staff', 'url' => 'admin/users/staff'),
                     array('name' => 'Customers', 'url' => 'admin/users/customers'),
                     array('name' => 'Roles', 'url' => 'admin/users/roles')
