@@ -172,6 +172,9 @@ yarn-error.log*
 *.sql.gz
 backup/
 backups/
+!database/
+!database/*.sql
+!database/**/*.sql
 
 # ===========================================
 # Session Files
