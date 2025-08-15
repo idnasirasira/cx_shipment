@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		formData.append("confirmation", confirmationInput.value);
 
 		// Send AJAX request
-		fetch(baseUrl + "admin/database/reset", {
+		fetch(baseUrl + "admin/settings/developer/database-reset/reset", {
 			method: "POST",
 			body: formData,
 		})
