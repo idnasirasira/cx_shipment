@@ -205,3 +205,5 @@ application/config/email.php
 
 # template
 templates
+
+.praesepe-agent/
