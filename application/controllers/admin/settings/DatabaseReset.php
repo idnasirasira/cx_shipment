@@ -44,6 +44,12 @@ class DatabaseReset extends MY_Controller
             show_error('Invalid request method', 405);
         }
 
+        // Drop Database
+        $this->db->query('DROP DATABASE IF EXISTS ' . $this->db->database);
+        $this->db->query('CREATE DATABASE ' . $this->db->database);
+        $this->db->query('USE ' . $this->db->database);
+
+
         // Verify confirmation
         $confirmation = $this->input->post('confirmation');
         if ($confirmation !== 'RESET_DATABASE') {

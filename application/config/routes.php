@@ -55,3 +55,4 @@ $route['translate_uri_dashes'] = FALSE;
 
 // database reset
 $route['admin/settings/developer/database-reset'] = 'admin/settings/DatabaseReset';
+$route['admin/settings/developer/database-reset/(:any)'] = 'admin/settings/DatabaseReset/$1';
