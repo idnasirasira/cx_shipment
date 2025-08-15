@@ -1,0 +1,201 @@
+# CodeIgniter 3 .gitignore
+
+# ===========================================
+# CodeIgniter Specific
+# ===========================================
+
+# Cache files
+application/cache/*
+!application/cache/index.html
+
+# Log files
+application/logs/*
+!application/logs/index.html
+
+# Keep .htaccess files
+!application/*/.htaccess
+
+# ===========================================
+# Composer
+# ===========================================
+composer.lock
+/vendor/
+
+# ===========================================
+# Environment & Configuration
+# ===========================================
+.env
+application/config/environments/development.php
+application/config/environments/testing.php
+application/config/environments/production.php
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+tests/mocks/database/ci_test.sqlite
+
+# ===========================================
+# IDE & Editor Files
+# ===========================================
+
+# PHPStorm / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Sublime Text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+
+# NetBeans
+/nbproject/
+/nbproject/private/
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ===========================================
+# OS Generated Files
+# ===========================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ===========================================
+# Temporary Files
+# ===========================================
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+
+# ===========================================
+# Upload Directories
+# ===========================================
+uploads/
+assets/uploads/
+public/uploads/
+
+# ===========================================
+# Testing
+# ===========================================
+/tests/tests/
+/tests/results/
+phpunit.xml
+.phpunit.result.cache
+
+# ===========================================
+# Documentation Build
+# ===========================================
+user_guide_src/build/*
+user_guide_src/cilexer/build/*
+user_guide_src/cilexer/dist/*
+user_guide_src/cilexer/pycilexer.egg-info/*
+
+# ===========================================
+# Node.js (if using frontend build tools)
+# ===========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# ===========================================
+# Build & Dist
+# ===========================================
+/dist/
+/build/
+/public/build/
+
+# ===========================================
+# SSL Certificates
+# ===========================================
+*.pem
+*.key
+*.crt
+*.csr
+
+# ===========================================
+# Backup Files
+# ===========================================
+*.sql
+*.sql.gz
+backup/
+backups/
+
+# ===========================================
+# Session Files
+# ===========================================
+sessions/
+application/sessions/
+
+# ===========================================
+# Error Logs
+# ===========================================
+error_log
+error.log
+*.log
+
+# ===========================================
+# Package Managers
+# ===========================================
+package-lock.json
+yarn.lock
+composer.phar
+
+# ===========================================
+# Local Configuration
+# ===========================================
+application/config/database.php
+application/config/config.php
+application/config/email.php
