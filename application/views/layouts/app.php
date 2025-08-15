@@ -3,6 +3,11 @@
 
 <head>
     <?php $this->load->view('layouts/_partials/head'); ?>
+
+    <?php foreach ($styles as $style) : ?>
+        <link rel="stylesheet" href="<?= base_url($style); ?>">
+    <?php endforeach; ?>
+
 </head>
 
 <body>
@@ -31,7 +36,6 @@
     <?php foreach ($scripts as $script) : ?>
         <script src="<?= base_url($script); ?>"></script>
     <?php endforeach; ?>
-
 
 </body>
 
