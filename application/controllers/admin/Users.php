@@ -41,7 +41,8 @@ class Users extends MY_Controller
     {
         $data = [
             'users' => $this->User_model->getAllUsers(),
-            'roles' => $this->Role_model->getAllRoles()
+            'roles' => $this->Role_model->getAllRoles(),
+            'section_title' => 'All Users'
         ];
 
         $this->pageScripts = [
@@ -70,7 +71,8 @@ class Users extends MY_Controller
     {
         $data = [
             'users' => $this->User_model->getAllUsersStaff(),
-            'roles' => $this->Role_model->getAllRoles()
+            'roles' => $this->Role_model->getAllRoles(),
+            'section_title' => 'Staff Users'
         ];
 
         $this->pageScripts = [
@@ -99,7 +101,8 @@ class Users extends MY_Controller
     {
         $data = [
             'users' => $this->User_model->getAllUsersByRole(['customer']),
-            'roles' => $this->Role_model->getAllRoles()
+            'roles' => $this->Role_model->getAllRoles(),
+            'section_title' => 'Customers'
         ];
 
         $this->pageScripts = [

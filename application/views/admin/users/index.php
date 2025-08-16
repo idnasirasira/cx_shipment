@@ -21,7 +21,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4 class="card-title">All Users</h4>
+                        <h4 class="card-title"><?= $section_title ?></h4>
                     </div>
                     <div class="col-md-6 text-end">
                         <a href="<?= base_url('admin/users/create') ?>" class="btn btn-primary">
