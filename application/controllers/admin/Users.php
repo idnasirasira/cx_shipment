@@ -60,6 +60,64 @@ class Users extends MY_Controller
         $this->loadView('admin/users/index', 'User Management', $data);
     }
 
+
+    /**
+     * Display list of all staff users
+     * 
+     * @return void
+     */
+    public function staff()
+    {
+        $data = [
+            'users' => $this->User_model->getAllUsersStaff(),
+            'roles' => $this->Role_model->getAllRoles()
+        ];
+
+        $this->pageScripts = [
+            'assets/js/global.js',
+            'assets/extensions/datatables.net/js/jquery.dataTables.min.js',
+            'assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js',
+            'assets/js/admin/users/index.js'
+        ];
+
+
+        $this->pageStyles = [
+            'assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
+            'assets/compiled/css/table-datatable-jquery.css'
+        ];
+
+        $this->loadView('admin/users/index', 'User Management', $data);
+    }
+
+
+    /**
+     * Display list of all staff users
+     * 
+     * @return void
+     */
+    public function customers()
+    {
+        $data = [
+            'users' => $this->User_model->getAllUsersByRole(['customer']),
+            'roles' => $this->Role_model->getAllRoles()
+        ];
+
+        $this->pageScripts = [
+            'assets/js/global.js',
+            'assets/extensions/datatables.net/js/jquery.dataTables.min.js',
+            'assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js',
+            'assets/js/admin/users/index.js'
+        ];
+
+
+        $this->pageStyles = [
+            'assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
+            'assets/compiled/css/table-datatable-jquery.css'
+        ];
+
+        $this->loadView('admin/users/index', 'User Management', $data);
+    }
+
     /**
      * Show create user form
      * 

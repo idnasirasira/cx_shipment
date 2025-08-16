@@ -38,6 +38,44 @@ class User_model extends CI_Model
         return $query->result();
     }
 
+
+    /**
+     * Get all staff users with role information
+     * 
+     * @return array Array of user objects
+     */
+    public function getAllUsersStaff($roleName = [])
+    {
+        $this->db->select('users.*, roles.name as role_name, roles.description as role_description');
+        $this->db->from($this->table);
+        $this->db->join('roles', 'roles.id = users.role_id', 'left');
+        $this->db->where('users.deleted_at IS NULL');
+        $this->db->order_by('users.created_at', 'DESC');
+        $this->db->where('roles.name !=', 'customer');
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    /**
+     * Get all users with role information
+     * 
+     * @return array Array of user objects
+     */
+    public function getAllUsersByRole($roleName = [])
+    {
+        $this->db->select('users.*, roles.name as role_name, roles.description as role_description');
+        $this->db->from($this->table);
+        $this->db->join('roles', 'roles.id = users.role_id', 'left');
+        $this->db->where('users.deleted_at IS NULL');
+        $this->db->order_by('users.created_at', 'DESC');
+        $this->db->where_in('roles.name', $roleName);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+
     /**
      * Get user by ID
      * 

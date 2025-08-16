@@ -70,9 +70,7 @@
                                             <?php if ($user->profile_picture) : ?>
                                                 <img src="<?= base_url('uploads/profiles/' . $user->profile_picture) ?>" alt="Profile Picture">
                                             <?php else : ?>
-                                                <div class="avatar-initial rounded-circle bg-primary">
-                                                    <?= strtoupper(substr($user->first_name, 0, 1) . substr($user->last_name, 0, 1)) ?>
-                                                </div>
+                                                <img src="<?= base_url('assets/compiled/jpg/1.jpg') ?>" alt="">
                                             <?php endif; ?>
                                         </div>
                                     </td>
@@ -160,7 +158,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Delete User</a>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger btn-confirm">Delete User</a>
             </div>
         </div>
     </div>
@@ -179,7 +177,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="#" id="confirmStatusBtn" class="btn btn-primary">Confirm</a>
+                <a href="#" id="confirmStatusBtn" class="btn btn-primary btn-confirm">Confirm</a>
             </div>
         </div>
     </div>
