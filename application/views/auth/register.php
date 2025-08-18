@@ -7,27 +7,36 @@
             <h1 class="auth-title">Sign Up</h1>
             <p class="auth-subtitle mb-5">Input your data to register to our website.</p>
 
-            <form action="<?= base_url("auth/register_process") ?>">
+            <form action="<?= base_url("auth/register_process") ?>" method="post">
+                <div class="alert alert-success" style="display: <?= $this->session->flashdata('success') ? 'block' : 'none'; ?>">
+                    <?= $this->session->flashdata('success'); ?>
+                </div>
+
+                <div class="alert alert-danger" style="display: <?= $this->session->flashdata('error') ? 'block' : 'none'; ?>">
+                    <?= $this->session->flashdata('error'); ?>
+                    <?= validation_errors(); ?>
+                </div>
+
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl" placeholder="Email">
+                    <input type="email" class="form-control form-control-xl" placeholder="Email" name="email" autocomplete="on">
                     <div class="form-control-icon">
                         <i class="bi bi-envelope"></i>
                     </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl" placeholder="Username">
+                    <input type="text" class="form-control form-control-xl" placeholder="Username" name="username" autocomplete="off">
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl" placeholder="Password">
+                    <input type="password" class="form-control form-control-xl" placeholder="Password" name="password" autocomplete="off">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl" placeholder="Confirm Password">
+                    <input type="password" class="form-control form-control-xl" placeholder="Confirm Password" name="confirm_password" autocomplete="off">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
