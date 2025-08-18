@@ -9,6 +9,8 @@ class Auth extends MY_Controller
         parent::__construct();
 
         $this->defaultLayout = 'layouts/guest';
+        $this->load->model('User_model');
+        $this->load->library('form_validation');
     }
 
     public function index()
@@ -22,10 +24,8 @@ class Auth extends MY_Controller
         $data = [];
         $this->pageScripts =  ['assets/js/auth/login.js'];
         $this->pageStyles =  [];
-
         $this->loadView('auth/login', 'Login', $data);
     }
-
 
     public function forgot_password()
     {
@@ -39,6 +39,7 @@ class Auth extends MY_Controller
     public function register()
     {
         $data = [];
+        $data['title'] = 'Register';
         $this->pageScripts =  ['assets/js/auth/register.js'];
         $this->pageStyles =  [];
 
@@ -57,8 +58,19 @@ class Auth extends MY_Controller
     public function register_process()
     {
         // TODO: Implement register process
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        $this->form_validation->set_rules('Password', 'Confirm Password', 'required|matches[password]');
 
-        redirect('admin/dashboard');
+        if ($this->form_validation->run() == FALSE) {
+            $data['title'] = 'Register';
+            $data['errors'] = validation_errors();
+            $this->loadView('auth/register', $data);
+        } else {
+            $this->User_model->register();
+            redirect('auth/login');
+        }
     }
 
     /**
@@ -73,14 +85,35 @@ class Auth extends MY_Controller
     public function login_process()
     {
         // TODO: Implement login process
+        $this->form_validation->set_rules('username', 'Username', 'required|trim');
+        $this->form_validation->set_rules('password', 'Password', 'required');
 
-        redirect('admin/dashboard');
+        if ($this->form_validation->run() == FALSE) {
+            $this->loadView('auth/login', 'Login', ['errors' => validation_errors()]);
+        } else {
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+
+            $user = $this->User_model->login($username, $password);
+
+            if ($user) {
+                $this->session->set_userdata([
+                    'user_id'   => $user->id,
+                    'username'  => $user->username,
+                    'role_id'   => $user->role_id,
+                    'logged_in' => TRUE
+                ]);
+                redirect('admin/dashboard');
+            } else {
+                $this->loadView('auth/login', 'Login', ['errors' => 'Invalid credentials']);
+            }
+        }
     }
 
     public function logout()
     {
         // TODO: Implement logout process
-
+        $this->session->sess_destroy();
         redirect('auth/login');
     }
 }
