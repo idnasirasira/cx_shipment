@@ -9,6 +9,7 @@ class Auth extends MY_Controller
         parent::__construct();
 
         $this->defaultLayout = 'layouts/guest';
+        $this->load->model('User_model');
     }
 
     public function index()
@@ -22,8 +23,10 @@ class Auth extends MY_Controller
         $data = [];
         $this->pageScripts =  ['assets/js/auth/login.js'];
         $this->pageStyles =  [];
-
         $this->loadView('auth/login', 'Login', $data);
+        if ($this->session->userdata('logged_in')) {
+            redirect('admin/dashboard');
+        }
     }
 
 
@@ -32,8 +35,10 @@ class Auth extends MY_Controller
         $data = [];
         $this->pageScripts =  ['assets/js/auth/forgot-password.js'];
         $this->pageStyles =  [];
-
         $this->loadView('auth/forgot-password', 'Forgot Password', $data);
+        if ($this->session->userdata('logged_in')) {
+            redirect('admin/dashboard');
+        }
     }
 
     public function register()
@@ -41,8 +46,10 @@ class Auth extends MY_Controller
         $data = [];
         $this->pageScripts =  ['assets/js/auth/register.js'];
         $this->pageStyles =  [];
-
         $this->loadView('auth/register', 'Register', []);
+        if ($this->session->userdata('logged_in')) {
+            redirect('admin/dashboard');
+        }
     }
 
     /**
@@ -57,8 +64,23 @@ class Auth extends MY_Controller
     public function register_process()
     {
         // TODO: Implement register process
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+        $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[12]|alpha_dash|is_unique[users.username]');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
+        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+        if ($this->form_validation->run() == FALSE) {
+            $data = [];
+            $this->pageScripts =  ['assets/js/auth/register.js'];
+            $this->pageStyles =  [];
+            $this->loadView('auth/register', 'Register', []);
+        } else {
+            $this->User_model->create_users();
+            redirect('admin/dashboard');
+        }
 
-        redirect('admin/dashboard');
+        if ($this->session->userdata('logged_in')) {
+            redirect('admin/dashboard');
+        }
     }
 
     /**
@@ -72,15 +94,50 @@ class Auth extends MY_Controller
      */
     public function login_process()
     {
-        // TODO: Implement login process
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
 
-        redirect('admin/dashboard');
+        if ($this->form_validation->run() == FALSE) {
+            $data = [];
+            $this->pageScripts =  ['assets/js/auth/login.js'];
+            $this->pageStyles =  [];
+            $this->loadView('auth/login', 'Login', $data);
+        } else {
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+
+            // Ambil user dari database
+            $user = $this->db->get_where('users', ['username' => $username])->row_array();
+
+            if ($user) {
+                // Verifikasi password hash
+                if (password_verify($password, $user['password'])) {
+                    // Set session
+                    $this->session->set_userdata([
+                        'user_id'   => $user['id'],
+                        'username'  => $user['username'],
+                        'role_id'   => $user['role_id'],
+                        'logged_in' => TRUE
+                    ]);
+                    redirect('admin/dashboard');
+                } else {
+                    $this->session->set_flashdata('error', 'Password salah!');
+                    redirect('auth/login');
+                }
+            } else {
+                $this->session->set_flashdata('error', 'Username tidak ditemukan!');
+                redirect('auth/login');
+            }
+        }
+        if ($this->session->userdata('logged_in')) {
+            redirect('admin/dashboard');
+        }
     }
 
     public function logout()
     {
         // TODO: Implement logout process
-
+        $this->session->sess_destroy();
         redirect('auth/login');
     }
 }

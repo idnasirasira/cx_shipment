@@ -7,15 +7,17 @@
             <h1 class="auth-title">Log in.</h1>
             <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
 
-            <form action="<?= base_url('auth/login_process'); ?>">
+            <form action="<?= base_url('auth/login_process'); ?>" method="post">
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl" placeholder="Username">
+                    <input type="text" class="form-control form-control-xl" placeholder="Username" name="username">
+                    <?= form_error('username',  '<p class="text-danger mt-1">', '</p>'); ?>
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl" placeholder="Password">
+                    <input type="password" class="form-control form-control-xl" placeholder="Password" name="password">
+                    <?= form_error('password',  '<p class="text-danger mt-1">', '</p>'); ?>
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
