@@ -1,4 +1,5 @@
 <meta charset="UTF-8">
+<base href="<?= base_url() ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="base-url" content="<?= base_url() ?>">
 <title><?= (isset($title) && !empty($title)) ? $title : "CX Shipment" ?></title>
