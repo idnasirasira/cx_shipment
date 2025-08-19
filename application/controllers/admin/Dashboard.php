@@ -9,6 +9,9 @@ class Dashboard extends MY_Controller
         parent::__construct();
 
         $this->defaultLayout = 'layouts/app';
+        if (!$this->session->userdata('username')) {
+            redirect('auth/login');
+        }
     }
 
     public function index()
