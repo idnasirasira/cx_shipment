@@ -68,7 +68,15 @@ class Auth extends MY_Controller
             $data['errors'] = validation_errors();
             $this->loadView('auth/register', $data);
         } else {
-            $this->User_model->register();
+            $this->db->insert('users', [
+                'role_id'    => 2, // Assuming 2 is the default role for new users
+                'email'      => htmlspecialchars($this->input->post('email')),
+                'username'   => htmlspecialchars($this->input->post('username')),
+                'password'   => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+                'is_active'     => 1, // Active status
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
             redirect('auth/login');
         }
     }
@@ -94,13 +102,15 @@ class Auth extends MY_Controller
             $username = $this->input->post('username');
             $password = $this->input->post('password');
 
-            $user = $this->User_model->login($username, $password);
+            $user = $this->User_model->getUserByUsername($username);
 
-            if ($user) {
+            if ($user && password_verify($password, $user->password)) {
                 $this->session->set_userdata([
                     'user_id'   => $user->id,
                     'username'  => $user->username,
-                    'role_id'   => $user->role_id,
+                    'user_role'   => $user->role,
+                    'user_email' => $user->email,
+                    'user_name' => $user->first_name . ' ' . $user->last_name,
                     'logged_in' => TRUE
                 ]);
                 redirect('admin/dashboard');
