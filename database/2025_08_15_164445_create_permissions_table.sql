@@ -23,31 +23,41 @@ CREATE TABLE role_permissions (
 );
 -- Insert default permissions
 INSERT INTO permissions (name, description)
-VALUES (
-        'manage_users',
-        'Create, read, update and delete users'
-    ),
+VALUES ('view_dashboard', 'View dashboard overview'),
+    ('manage_shipments', 'Manage all shipments'),
     (
-        'manage_roles',
-        'Manage user roles and permissions'
+        'view_shipments',
+        'View shipment list and details'
     ),
+    ('create_shipments', 'Create new shipments'),
+    ('manage_tracking', 'Manage shipment tracking'),
+    ('view_tracking', 'View shipment tracking'),
     (
-        'manage_orders',
-        'Handle delivery orders and tracking'
+        'update_tracking',
+        'Update shipment tracking location'
     ),
     (
         'view_reports',
         'Access to system reports and analytics'
     ),
+    ('manage_settings', 'Configure system settings'),
     (
-        'manage_customers',
-        'Manage customer information'
+        'manage_users',
+        'Create, read, update and delete users'
+    ),
+    ('view_users', 'View user list and details'),
+    ('create_users', 'Create new users'),
+    ('manage_roles', 'Manage user roles'),
+    ('view_roles', 'View user roles'),
+    ('create_roles', 'Create new roles'),
+    (
+        'manage_permissions',
+        'Manage permission assignments'
     ),
     (
-        'manage_drivers',
-        'Manage driver assignments and schedules'
-    ),
-    ('manage_settings', 'Configure system settings');
+        'manage_developer_settings',
+        'Access and configure developer settings'
+    );
 -- Assign permissions to admin role
 INSERT INTO role_permissions (role_id, permission_id)
 SELECT r.id,

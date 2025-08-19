@@ -47,25 +47,29 @@
                     echo "<li class='sidebar-title'>{$section['title']}</li>";
 
                     foreach ($section['items'] as $item) {
+                        // Check if user has permission to view this menu item
+                        $requiredPermission = isset($item['permission']) ? $item['permission'] : null;
+                        if ($requiredPermission && !has_permission($requiredPermission)) {
+                            continue; // Skip this menu item if user doesn't have permission
+                        }
+
                         $hasSubmenu = isset($item['submenu']);
                         $url = isset($item['url']) ? base_url($item['url']) : '#';
-                        // if ($item['name'] == "Developer Settings") {
-                        //     echo $url;
-                        //     die();
-                        // }
                         $active = is_menu_active($url);
                         $submenu_active = false;
 
-                        // $active set active if the submenu is active to the current url
+                        // Check if any submenu item is active
                         if ($hasSubmenu) {
                             foreach ($item['submenu'] as $submenu) {
                                 $submenuUrl = isset($submenu['url']) ? base_url($submenu['url']) : '#';
-                                $submenu_active = is_menu_active($submenuUrl);
+                                if (is_menu_active($submenuUrl)) {
+                                    $submenu_active = true;
+                                    break;
+                                }
                             }
                         }
 
-
-                        echo "<li class='sidebar-item " . ($hasSubmenu ? 'has-sub ' : '') . $active . "'>";
+                        echo "<li class='sidebar-item " . ($hasSubmenu ? 'has-sub ' : '') . ($active || $submenu_active ? 'active' : '') . "'>";
 
                         $url = isset($item['url']) ? base_url($item['url']) : '#';
                         echo "<a href='{$url}' class='sidebar-link'>";
@@ -76,6 +80,12 @@
                         if ($hasSubmenu) {
                             echo "<ul class='submenu " . ($submenu_active ? 'active' : '') . "'>";
                             foreach ($item['submenu'] as $submenu) {
+                                // Check if user has permission to view this submenu item
+                                $submenuPermission = isset($submenu['permission']) ? $submenu['permission'] : null;
+                                if ($submenuPermission && !has_permission($submenuPermission)) {
+                                    continue; // Skip this submenu item if user doesn't have permission
+                                }
+
                                 $submenuUrl = isset($submenu['url']) ? base_url($submenu['url']) : '#';
                                 $submenu_active = is_menu_active($submenuUrl);
                                 echo "<li class='submenu-item " . $submenu_active . "'>";
