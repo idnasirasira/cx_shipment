@@ -1,0 +1,36 @@
+/* Styling untuk kontainer gambar profil */
+.profile-picture-container {
+	overflow: hidden; /* Penting agar overlay tidak melebihi gambar */
+	border-radius: 50%; /* Membuat kontainer bundar */
+	/* Tambahkan dimensi jika Anda ingin kontainer memiliki ukuran tetap */
+	/* width: 150px; */
+	/* height: 150px; */
+}
+
+/* Styling untuk overlay "Change Profile" */
+.profile-picture-overlay {
+	background-color: rgba(0, 0, 0, 0.5); /* Latar belakang hitam transparan */
+	opacity: 0; /* Awalnya tersembunyi */
+	transition: opacity 0.3s ease; /* Transisi halus saat muncul/hilang */
+}
+
+/* Munculkan overlay saat kursor diarahkan ke kontainer gambar */
+.profile-picture-container:hover .profile-picture-overlay {
+	opacity: 1;
+}
+
+/* Styling untuk teks di dalam overlay */
+.profile-picture-overlay span {
+	font-size: 0.9rem;
+	text-align: center;
+}
+
+/* Styling untuk gambar profil itu sendiri */
+.profile-picture {
+	transition: transform 0.3s ease; /* Efek zoom halus saat kursor diarahkan */
+}
+
+/* Efek zoom pada gambar saat kursor diarahkan */
+.profile-picture-container:hover .profile-picture {
+	transform: scale(1.05); /* Membesar sedikit */
+}

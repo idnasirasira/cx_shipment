@@ -4,6 +4,8 @@
 <head>
     <?php $this->load->view('layouts/_partials/head'); ?>
 
+    <link rel="stylesheet" href="<?= base_url('assets/css/custom.css') ?>">
+
     <link rel="stylesheet" href="<?= base_url('assets/extensions/simple-datatables/style.css') ?>">
     <link rel="stylesheet" crossorigin href="<?= base_url('assets/compiled/css/table-datatable.css') ?>">
 
@@ -33,12 +35,22 @@
     <script src="<?= base_url("assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js") ?>"></script>
 
     <script src="<?= base_url("assets/compiled/js/app.js") ?>"></script>
+
     <script src="<?= base_url("assets/extensions/jquery/jquery.min.js") ?>"></script>
+
     <script src="<?= base_url("assets/extensions/simple-datatables/umd/simple-datatables.js") ?>"></script>
 
-    <?php foreach ($scripts as $script) : ?>
-        <script src="<?= base_url($script); ?>"></script>
-    <?php endforeach; ?>
+    <?php if (isset($pageScripts) && is_array($pageScripts)) : ?>
+        <?php foreach ($pageScripts as $script) : ?>
+            <script src="<?= base_url($script); ?>"></script>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if (isset($scripts) && is_array($scripts)) : ?>
+        <?php foreach ($scripts as $script) : ?>
+            <script src="<?= base_url($script); ?>"></script>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
 </body>
 

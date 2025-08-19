@@ -117,7 +117,7 @@ class Auth extends MY_Controller
             $password = $this->input->post('password');
 
             $this->load->model('User_model');
-            $user = $this->User_model->get_user_by_username($username);
+            $user = $this->User_model->getUserByUsername($username);
 
             if ($user && password_verify($password, $user->password)) {
                 // ... (kode login berhasil, tidak ada perubahan)
