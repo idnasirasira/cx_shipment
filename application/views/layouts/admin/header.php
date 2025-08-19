@@ -79,7 +79,7 @@
                         <li>
                             <h6 class="dropdown-header">Hello, <?= $this->session->userdata('username') ?>!</h6>
                         </li>
-                        <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> My
+                        <li><a class="dropdown-item" href="<?= base_url("admin/profile") ?>"><i class="icon-mid bi bi-person me-2"></i> My
                                 Profile</a></li>
                         <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
                                 Settings</a></li>

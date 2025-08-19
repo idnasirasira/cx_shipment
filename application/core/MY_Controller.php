@@ -45,19 +45,19 @@ class MY_Controller extends CI_Controller
     {
         // User Model -> getUserById
         // Load User Model
-        $this->load->model('User_model', 'user_model');
-        $user = $this->user_model->getUserById(1);
+        // $this->load->model('User_model', 'user_model');
+        // $user = $this->user_model->getUserById(1);
 
-        if ($user) {
-            // Check session if not set then set session
-            if (!$this->session->userdata('user_id')) {
-                // logged_in
-                $this->session->set_userdata('logged_in', true);
-                $this->session->set_userdata('user_id', $user->id);
-                $this->session->set_userdata('user_name', $user->first_name . ' ' . $user->last_name);
-                $this->session->set_userdata('user_email', $user->email);
-                $this->session->set_userdata('user_role', $user->role);
-            }
-        }
+        // if ($user) {
+        //     // Check session if not set then set session
+        //     if (!$this->session->userdata('user_id')) {
+        //         // logged_in
+        //         $this->session->set_userdata('logged_in', true);
+        //         $this->session->set_userdata('user_id', $user->id);
+        //         $this->session->set_userdata('user_name', $user->first_name . ' ' . $user->last_name);
+        //         $this->session->set_userdata('user_email', $user->email);
+        //         $this->session->set_userdata('user_role', $user->role);
+        //     }
+        // }
     }
 }

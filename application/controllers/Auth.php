@@ -9,7 +9,7 @@ class Auth extends MY_Controller
         parent::__construct();
 
         $this->defaultLayout = 'layouts/guest';
-        $this->load->model('User_model');
+        $this->load->model('Auth_model');
     }
 
     public function index()
@@ -74,7 +74,7 @@ class Auth extends MY_Controller
             $this->pageStyles =  [];
             $this->loadView('auth/register', 'Register', []);
         } else {
-            $this->User_model->create_users();
+            $this->Auth_model->create_users();
             redirect('admin/dashboard');
         }
 
@@ -139,5 +139,22 @@ class Auth extends MY_Controller
         // TODO: Implement logout process
         $this->session->sess_destroy();
         redirect('auth/login');
+    }
+
+
+    //CALLBACK
+    public function check_old_email($input_email, $id)
+    {
+        // ambil user dari database
+        $user = $this->db->get_where('users', ['id' => $id])->row();
+
+        if ($user) {
+            if ($input_email === $user->email) {
+                return TRUE; // valid
+            }
+        }
+
+        $this->form_validation->set_message('check_old_email', 'Email tidak sesuai dengan data kami.');
+        return FALSE;
     }
 }
