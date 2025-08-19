@@ -1,3 +1,15 @@
+<?php if ($this->session->flashdata('error_message')) : ?>
+    <div class="alert alert-danger" role="alert">
+        <?= $this->session->flashdata('error_message'); ?>
+    </div>
+<?php endif; ?>
+
+<?php if ($this->session->flashdata('success_message')) : ?>
+    <div class="alert alert-success" role="alert">
+        <?= $this->session->flashdata('success_message'); ?>
+    </div>
+<?php endif; ?>
+
 <div class="row h-100">
     <div class="col-lg-5 col-12">
         <div id="auth-left">
@@ -7,32 +19,36 @@
             <h1 class="auth-title">Sign Up</h1>
             <p class="auth-subtitle mb-5">Input your data to register to our website.</p>
 
-            <form action="<?= base_url("auth/register_process") ?>">
+            <form action="<?= base_url("auth/register_process") ?>" method="post">
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl" placeholder="Email">
+                    <input type="email" name="email" class="form-control form-control-xl" placeholder="Email" value="<?= set_value('email'); ?>">
                     <div class="form-control-icon">
                         <i class="bi bi-envelope"></i>
                     </div>
+                    <?= form_error('email', '<div class="text-danger mt-1">', '</div>'); ?>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl" placeholder="Username">
+                    <input type="text" name="username" class="form-control form-control-xl" placeholder="Username" value="<?= set_value('username'); ?>">
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
+                    <?= form_error('username', '<div class="text-danger mt-1">', '</div>'); ?>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl" placeholder="Password">
+                    <input type="password" name="password" class="form-control form-control-xl" placeholder="Password">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
+                    <?= form_error('password', '<div class="text-danger mt-1">', '</div>'); ?>
                 </div>
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="password" class="form-control form-control-xl" placeholder="Confirm Password">
+                    <input type="password" name="confirm_password" class="form-control form-control-xl" placeholder="Confirm Password">
                     <div class="form-control-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
+                    <?= form_error('confirm_password', '<div class="text-danger mt-1">', '</div>'); ?>
                 </div>
-                <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Sign Up</button>
+                <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Sign Up</button>
             </form>
             <div class="text-center mt-5 text-lg fs-4">
                 <p class='text-gray-600'>Already have an account? <a href="<?= base_url("auth/login") ?>" class="font-bold">Log in</a>.</p>

@@ -56,9 +56,39 @@ class Auth extends MY_Controller
      */
     public function register_process()
     {
-        // TODO: Implement register process
+        $this->load->library('form_validation');
 
-        redirect('admin/dashboard');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+        $this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|is_unique[users.username]');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]');
+        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password', 'required|matches[password]');
+
+        // Mengatur pesan error kustom untuk setiap aturan
+        $this->form_validation->set_message('required', '{field} harus diisi.');
+        $this->form_validation->set_message('valid_email', 'Silakan masukkan email yang valid.');
+        $this->form_validation->set_message('is_unique', '{field} ini sudah terdaftar.');
+        $this->form_validation->set_message('min_length', '{field} minimal {param} karakter.');
+        $this->form_validation->set_message('matches', 'Konfirmasi password tidak cocok.');
+
+        if ($this->form_validation->run() == FALSE) {
+            // Jika validasi gagal, kembalikan ke halaman register dengan input dan error sebelumnya
+            $this->loadView('auth/register', 'Register', []);
+        } else {
+            // Jika validasi berhasil
+            $data = array(
+                'email'    => $this->input->post('email'),
+                'username' => $this->input->post('username'),
+                'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+                'role_id'  => 2,
+                'is_active' => 1
+            );
+
+            $this->load->model('User_model');
+            $this->User_model->insert_user($data);
+
+            $this->session->set_flashdata('success_message', 'Registrasi berhasil! Silakan login.');
+            redirect('auth/login');
+        }
     }
 
     /**
@@ -72,9 +102,42 @@ class Auth extends MY_Controller
      */
     public function login_process()
     {
-        // TODO: Implement login process
+        $this->load->library('form_validation');
 
-        redirect('admin/dashboard');
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+
+        // Mengatur pesan error kustom
+        $this->form_validation->set_message('required', '{field} harus diisi.');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->loadView('auth/login', 'Login', []);
+        } else {
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+
+            $this->load->model('User_model');
+            $user = $this->User_model->get_user_by_username($username);
+
+            if ($user && password_verify($password, $user->password)) {
+                // ... (kode login berhasil, tidak ada perubahan)
+                $user_data = array(
+                    'user_id'  => $user->id,
+                    'username' => $user->username,
+                    'email'    => $user->email,
+                    'logged_in' => TRUE
+                );
+                $this->session->set_userdata($user_data);
+
+                $this->session->set_flashdata('success_message', 'Login berhasil!');
+                redirect('admin/dashboard');
+            } else {
+                // **PERUBAHAN DI SINI**
+                // Login gagal, kirim pesan error spesifik ke view
+                $data['error_login'] = 'Username atau Password salah';
+                $this->loadView('auth/login', 'Login', $data);
+            }
+        }
     }
 
     public function logout()
