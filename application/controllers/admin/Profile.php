@@ -19,7 +19,6 @@ class Profile extends MY_Controller
         $data = [];
         $id = $this->session->userdata('user_id');
         $data['user'] = $this->User_model->getUserById($id);
-        $this->pageScripts =  ['assets/js/auth/login.js'];
         $this->pageStyles =  [];
         $this->loadView('admin/profile/index', 'Profile', $data);
     }
@@ -40,7 +39,6 @@ class Profile extends MY_Controller
 
 
         if ($this->form_validation->run() == FALSE) {
-            $this->pageScripts =  ['assets/js/auth/login.js'];
             $this->pageStyles =  [];
             $this->loadView('admin/profile/edit', 'Edit Profile', $data);
         } else {
@@ -68,7 +66,6 @@ class Profile extends MY_Controller
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->pageScripts =  ['assets/js/auth/login.js'];
             $this->pageStyles =  [];
             $this->loadView('admin/profile/reset_password', 'Edit Profile', $data);
         } else {

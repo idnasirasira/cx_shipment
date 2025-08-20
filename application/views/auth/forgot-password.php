@@ -7,9 +7,10 @@
             <h1 class="auth-title">Forgot Password.</h1>
             <p class="auth-subtitle mb-5">Enter your email and we'll send you instructions to reset your password.</p>
 
-            <form action="<?= base_url('auth/login'); ?>">
+            <form method="post" action="<?= base_url('auth/forgot_password') ?>">
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="email" class="form-control form-control-xl" placeholder="Email">
+                    <input type="email" class="form-control form-control-xl" placeholder="Email" name="email" id="email">
+                    <?= form_error('email',  '<p class="text-danger mt-1">', '</p>'); ?>
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
