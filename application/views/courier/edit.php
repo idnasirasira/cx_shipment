@@ -83,10 +83,19 @@
                                                     id="is_active"
                                                     name="is_active"
                                                     value="1"
-                                                    <?= set_checkbox('is_active', '1', true) ?>>
-                                                <label class="form-check-label" for="is_active">
-                                                    Active
+                                                    <?php if ($courier->is_active == 1) :
+                                                        echo   set_checkbox('is_active', '1', true); ?>>
+                                                <label class="badge bg-success" for="is_active">
+                                                    <b>Active</b>
                                                 </label>
+                                            <?php else :
+                                                        echo set_checkbox('is_active', '0', false); ?>
+                                                >
+                                                <label class="badge bg-danger" for="is_active">
+                                                    <b>Inactive</b>
+                                                </label>
+                                            <?php endif; ?>
+
                                             </div>
                                         </div>
                                     </div>
