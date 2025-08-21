@@ -57,19 +57,6 @@ $(document).ready(function () {
 		// Todo
 	};
 
-	var deleteModeal = function deleteUser(userId, username) {
-		showConfirmationModal(
-			"deleteModal",
-			"Delete User",
-			`Are you sure you want to delete user "${username}"? This action cannot be undone.`,
-			`${baseUrl}admin/users/destroy/${userId}`,
-			"Delete User",
-			"btn-danger"
-		);
-	};
-
-	deleteModeal();
-
 	handleModalEdit();
 
 	// Initialize alerts auto-hide
