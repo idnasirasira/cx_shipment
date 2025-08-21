@@ -2,7 +2,6 @@
     <div class="page-title">
         <div class="">
             <?= $this->session->flashdata('success') ?>
-
         </div>
 
         <div class="row">
