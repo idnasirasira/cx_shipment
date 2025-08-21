@@ -25,7 +25,7 @@
                                 <img src="./assets/compiled/jpg/2.jpg" alt="Avatar">
                             </div>
 
-                            <h3 class="mt-3">John Doe</h3>
+                            <h3 class="mt-3"><?= $user->username ?></h3>
                             <p class="text-small">Junior Software Engineer</p>
                         </div>
                     </div>
