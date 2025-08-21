@@ -49,6 +49,13 @@ $config['menu'] = array(
     array(
         'title' => 'Settings',
         'items' => array(
+            // Menu baru untuk Kurir
+            array(
+                'name' => 'Courier Management',
+                'url' => 'admin/courier',
+                'icon' => 'bi bi-truck',
+                'permission' => 'manage_couriers'
+            ),
             array(
                 'name' => 'Shipping Rates',
                 'url' => 'admin/settings/rates',

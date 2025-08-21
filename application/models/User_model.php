@@ -38,6 +38,10 @@ class User_model extends CI_Model
         return $query->result();
     }
 
+    public function insert_user($data)
+    {
+        return $this->db->insert('users', $data); // 'users' is your table name
+    }
 
     /**
      * Get all staff users with role information
