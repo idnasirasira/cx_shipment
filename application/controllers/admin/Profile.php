@@ -16,7 +16,6 @@ class Profile extends MY_Controller
 
     public function index()
     {
-        $data = [];
         $id = $this->session->userdata('user_id');
         $data['user'] = $this->User_model->getUserById($id);
         $this->pageStyles =  [];

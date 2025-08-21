@@ -22,7 +22,11 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-center align-items-center flex-column mt-4">
                             <div class="avatar avatar-2xl">
-                                <img src="./assets/compiled/jpg/2.jpg" alt="Avatar">
+                                <?php if ($user->profile_picture) : ?>
+                                    <img src="<?= base_url('uploads/profiles/' . $user->profile_picture) ?>" alt="Profile Picture">
+                                <?php else : ?>
+                                    <img src="<?= base_url('assets/compiled/jpg/1.jpg') ?>" alt="">
+                                <?php endif; ?>
                             </div>
 
                             <h3 class="mt-3"><?= $user->username ?></h3>
