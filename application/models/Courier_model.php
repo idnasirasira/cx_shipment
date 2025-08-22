@@ -40,6 +40,7 @@ class Courier_model extends CI_Model
     public function addNewCourier($data)
     {
         return $this->db->insert($this->table, $data);
+        return TRUE;
     }
 
 
@@ -49,5 +50,6 @@ class Courier_model extends CI_Model
 
         $this->db->where('id', $id);
         $this->db->update($this->table, $data);
+        return TRUE;
     }
 }

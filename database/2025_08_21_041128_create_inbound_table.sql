@@ -20,8 +20,6 @@ CREATE TABLE inbound (
     created_by BIGINT UNSIGNED,
     updated_by BIGINT UNSIGNED,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_inbound_courier FOREIGN KEY (courier_id) REFERENCES couriers(id),
-    CONSTRAINT fk_inbound_created_by FOREIGN KEY (created_by) REFERENCES users(id),
-    CONSTRAINT fk_inbound_updated_by FOREIGN KEY (updated_by) REFERENCES users(id)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;

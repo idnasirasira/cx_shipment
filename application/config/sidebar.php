@@ -21,7 +21,8 @@ $config['menu'] = array(
                     array('name' => 'Pending', 'url' => 'admin/shipments/pending', 'permission' => 'view_shipments'),
                     array('name' => 'In Transit', 'url' => 'admin/shipments/in-transit', 'permission' => 'view_shipments'),
                     array('name' => 'Delivered', 'url' => 'admin/shipments/delivered', 'permission' => 'view_shipments'),
-                    array('name' => 'Cancelled', 'url' => 'admin/shipments/cancelled', 'permission' => 'view_shipments')
+                    array('name' => 'Cancelled', 'url' => 'admin/shipments/cancelled', 'permission' => 'view_shipments'),
+                    array('name' => 'Inbound', 'url' => 'admin/inbound/index', 'permission' => 'view_shipments')
                 )
             ),
             array(
@@ -70,7 +71,8 @@ $config['menu'] = array(
                     array('name' => 'All Users', 'url' => 'admin/users/index', 'permission' => 'view_users'),
                     array('name' => 'Create User', 'url' => 'admin/users/create', 'permission' => 'create_users'),
                     array('name' => 'Staff', 'url' => 'admin/users/staff', 'permission' => 'view_users'),
-                    array('name' => 'Customers', 'url' => 'admin/users/customers', 'permission' => 'view_users')
+                    array('name' => 'Customers', 'url' => 'admin/users/customers', 'permission' => 'view_users'),
+                    array('name' => 'Courier', 'url' => 'courier/index', 'permission' => 'view_users')
                 )
             ),
             array(

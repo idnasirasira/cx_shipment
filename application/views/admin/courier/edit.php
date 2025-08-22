@@ -2,15 +2,15 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Create New Courier</h3>
-                <p class="text-subtitle text-muted">Add a new courier</p>
+                <h3>Edit Courier</h3>
+                <p class="text-subtitle text-muted">Update data courier</p>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('courier') ?>">Courier</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Create Courier</li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('admin/courier') ?>">Courier</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Courier</li>
                     </ol>
                 </nav>
             </div>
@@ -27,7 +27,7 @@
                     <div class="card-body">
 
 
-                        <form action="<?= base_url('courier/store') ?>" method="POST" class="form form-horizontal">
+                        <form action="<?= base_url('admin/courier/update/' . $id) ?>" method="POST" class="form form-horizontal">
                             <div class="form-body">
                                 <div class="row">
                                     <!-- Personal Information -->
@@ -39,7 +39,9 @@
                                                 id="name"
                                                 class="form-control"
                                                 name="name"
-                                                placeholder="Enter Name">
+                                                placeholder="Enter Name"
+                                                value="<?= $courier->name ?>">
+
                                             <?= form_error('name',  '<p class="text-danger mt-1">', '</p>'); ?>
 
                                         </div>
@@ -51,7 +53,8 @@
                                                 id="code"
                                                 class="form-control"
                                                 name="code"
-                                                placeholder="Enter Code">
+                                                placeholder="Enter Code"
+                                                value="<?= $courier->code ?>">
                                             <?= form_error('code',  '<p class="text-danger mt-1">', '</p>'); ?>
 
                                         </div>
@@ -63,7 +66,9 @@
                                                 id="description"
                                                 class="form-control"
                                                 name="description"
-                                                placeholder="Enter description">
+                                                placeholder="Enter description"
+                                                value="<?= $courier->description ?>">
+
                                             <?= form_error('description',  '<p class="text-danger mt-1">', '</p>'); ?>
                                         </div>
                                     </div>
@@ -78,10 +83,19 @@
                                                     id="is_active"
                                                     name="is_active"
                                                     value="1"
-                                                    <?= set_checkbox('is_active', '1', true) ?>>
-                                                <label class="form-check-label" for="is_active">
-                                                    Active
+                                                    <?php if ($courier->is_active == 1) :
+                                                        echo   set_checkbox('is_active', '1', true); ?>>
+                                                <label class="badge bg-success" for="is_active">
+                                                    <b>Active</b>
                                                 </label>
+                                            <?php else :
+                                                        echo set_checkbox('is_active', '0', false); ?>
+                                                >
+                                                <label class="badge bg-danger" for="is_active">
+                                                    <b>Inactive</b>
+                                                </label>
+                                            <?php endif; ?>
+
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +104,7 @@
 
                                 <div class="row mt-4">
                                     <div class="col-12 d-flex justify-content-end">
-                                        <a href="<?= base_url('courier') ?>" class="btn btn-light-secondary me-1 mb-1">
+                                        <a href="<?= base_url('admin/courier') ?>" class="btn btn-light-secondary me-1 mb-1">
                                             <i class="bi bi-arrow-left"></i> Cancel
                                         </a>
                                         <button type="submit" class="btn btn-primary me-1 mb-1">

@@ -58,10 +58,9 @@
                     ]);
                     redirect('auth/change_password');
                 }
-            }
-
-            if ($this->session->userdata('logged_in')) {
-                redirect('admin/dashboard');
+                if ($this->session->userdata('logged_in')) {
+                    redirect('admin/dashboard');
+                }
             }
         }
 
@@ -83,6 +82,9 @@
 
                 $this->User_model->updateUser($id, $data);
                 redirect('auth/login');
+            }
+            if ($this->session->userdata('logged_in')) {
+                redirect('admin/dashboard');
             }
         }
 
@@ -150,34 +152,36 @@
                 $this->pageStyles =  [];
                 $this->loadView('auth/login', 'Login', $data);
             } else {
+
                 $username = $this->input->post('username');
                 $password = $this->input->post('password');
 
                 // Ambil user dari database
-                $user = $this->db->get_where('users', ['username' => $username])->row_array();
+                $user = $this->User_model->getUserByUsername($username);
 
                 if ($user) {
                     // Verifikasi password hash
-                    if (password_verify($password, $user['password'])) {
+                    if (password_verify($password, $user->password)) {
                         // Set session
                         $this->session->set_userdata([
-                            'user_id'   => $user['id'],
-                            'username'  => $user['username'],
-                            'role_id'   => $user['role_id'],
+                            'user_id'   => $user->id,
+                            'username'  => $user->username,
+                            'user_role' =>  $user->role_name,
+                            'first_name' => $user->first_name,
                             'logged_in' => TRUE
                         ]);
                         redirect('admin/dashboard');
                     } else {
-                        $this->session->set_flashdata('error', 'Password salah!');
+                        $this->session->set_flashdata('error', 'Wrong Password!');
                         redirect('auth/login');
                     }
                 } else {
-                    $this->session->set_flashdata('error', 'Username tidak ditemukan!');
+                    $this->session->set_flashdata('error', 'Username not avaible!');
                     redirect('auth/login');
                 }
-            }
-            if ($this->session->userdata('logged_in')) {
-                redirect('admin/dashboard');
+                if ($this->session->userdata('logged_in')) {
+                    redirect('admin/dashboard');
+                }
             }
         }
 

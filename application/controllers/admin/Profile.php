@@ -49,9 +49,15 @@ class Profile extends MY_Controller
                 'phone' => $this->input->post('phone'),
                 'address' => $this->input->post('address'),
             ];
+            $edit = $this->User_model->updateUser($id, $data);
 
-            $this->User_model->updateUser($id, $data);
-            redirect('admin/profile');
+            if ($edit) {
+                $this->session->set_flashdata('success', 'Courier edited successfully!');
+                redirect('admin/profile');
+            } else {
+                $this->session->set_flashdata('error', 'Failed to edited Courier. Please try again.');
+                redirect('admin/profile');
+            }
         }
     }
 

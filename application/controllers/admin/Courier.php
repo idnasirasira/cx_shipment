@@ -28,14 +28,6 @@
                 'couriers' => $this->Courier_model->getAllCouriers()
             ];
 
-            // $this->pageScripts = [
-            //     'assets/js/global.js',
-            //     'assets/extensions/datatables.net/js/jquery.dataTables.min.js',
-            //     'assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js',
-            //     'assets/js/admin/users/index.js'
-            // ];
-
-
             $this->pageStyles = [
                 'assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
                 'assets/compiled/css/table-datatable-jquery.css'
@@ -56,7 +48,6 @@
             $data = [];
             $this->form_validation->set_rules('name', 'Name', 'required');
             $this->form_validation->set_rules('code', 'Code', 'required|is_unique[courier.code]');
-            $this->form_validation->set_rules('description', 'Description', 'required');
             if ($this->form_validation->run() == FALSE) {
                 $this->pageStyles =  [];
                 $this->loadView('admin/courier/create', 'Create New Courier', $data);
@@ -71,8 +62,14 @@
                     'updated_at' => null,
                     'deleted_at' => null
                 ];
-                $this->Courier_model->addNewCourier($data);
-                redirect('courier');
+                $create = $this->Courier_model->addNewCourier($data);
+                if ($create) {
+                    $this->session->set_flashdata('success', 'Courier created successfully!');
+                    redirect('admin/courier');
+                } else {
+                    $this->session->set_flashdata('error', 'Failed to created Courier. Please try again.');
+                    redirect('admin/courier');
+                }
             }
         }
 
@@ -83,7 +80,7 @@
                 'id' => $id
             ];
             $this->pageStyles = [];
-            $this->loadView('courier/edit', 'Edit Courier', $data);
+            $this->loadView('admin/courier/edit', 'Edit Courier', $data);
         }
 
         public function update($id)
@@ -94,7 +91,6 @@
             ];
             $this->form_validation->set_rules('name', 'Name', 'required');
             $this->form_validation->set_rules('code', 'Code', 'required|callback_email_unique[' . $id . ']');
-            $this->form_validation->set_rules('description', 'Description', 'required');
             if ($this->form_validation->run() == FALSE) {
                 $this->pageStyles =  [];
                 $this->loadView('admin/courier/edit', 'Edit Courier', $data);
@@ -108,8 +104,15 @@
                     'updated_at' =>  date('Y-m-d H:i:s')
 
                 ];
-                $this->Courier_model->updateCourier($id, $data);
-                redirect('courier');
+                $update = $this->Courier_model->updateCourier($id, $data);
+
+                if ($update) {
+                    $this->session->set_flashdata('success', 'Courier edited successfully!');
+                    redirect('admin/courier');
+                } else {
+                    $this->session->set_flashdata('error', 'Failed to edited Courier. Please try again.');
+                    redirect('admin/courier');
+                }
             }
         }
 
