@@ -27,7 +27,7 @@
                         <h4 class="card-title"><?= $section_title ?></h4>
                     </div>
                     <div class="col-md-6 text-end">
-                        <a data-bs-toggle="modal" data-bs-target="#inlineForm" class="btn btn-primary">
+                        <a href="<?= base_url('admin/inbound/create') ?>" class="btn btn-primary">
                             <i class="bi bi-plus-circle"></i> Add New Inbound
                         </a>
                     </div>
@@ -43,14 +43,14 @@
                 <?php endif; ?>
 
                 <div class="table-responsive datatable-minimal">
-                    <table class="table table-striped" id="usersTable">
+                    <table class="table table-striped" id="inboundTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Courier</th>
-                                <th>Awb Code</th>
+                                <th>AWB Number</th>
                                 <th>Status</th>
-                                <th>Status</th>
+                                <th>Receiver Name</th>
                                 <th>Created</th>
                                 <th>Created by</th>
                                 <th>Updated</th>
@@ -59,67 +59,46 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($couriers as $courier) : ?>
-                                <?php if ($courier->is_deleted == false) : ?>
-                                    <tr>
-                                        <td><?= $courier->id ?></td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div>
-                                                    <div class="fw-bold"><?= $courier->name ?></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><?= $courier->code ?></td>
-                                        <td><?= $courier->description ?></td>
-                                        <td>
-                                            <?php if ($courier->is_active) : ?>
-                                                <span class="badge bg-success">Active</span>
-                                            <?php else : ?>
-                                                <span class="badge bg-danger">Inactive</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td><?= $courier->created_at ?></td>
-                                        <td>
-                                            <span class="badge bg-light-info"><?= ucfirst($courier->user_name) ?></span>
-                                        </td>
-                                        <td><?= $courier->updated_at ?></td>
-                                        <td><span class="badge bg-light"><?= ucfirst($courier->user_name) ?></span></td>
-                                        <td>
-                                            <div class="d-flex gap-1">
-                                                <a href="<?= base_url('admin/users/show/' . $courier->id) ?>"
-                                                    class="btn btn-sm btn-outline-info"
-                                                    title="View Details">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                <a href="<?= base_url('admin/couriers/modal_edit/' . $courier->id) ?>"
-                                                    class="btn btn-sm btn-outline-warning btn-edit"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#editModal"
-                                                    data-id="<?= $courier->id ?>"
-                                                    data-name="<?= $courier->name ?>"
-                                                    data-description="<?= $courier->description ?>"
-                                                    data-status="<?= $courier->is_active ?>"
-                                                    title="Edit Courier">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
-                                                <a href=""
-                                                    class="btn btn-sm btn-outline-<?= $user->is_active ? 'secondary' : 'success' ?>"
-                                                    onclick="toggleUserStatus(<?= $user->id ?>)"
-                                                    title="<?= $user->is_active ? 'Deactivate' : 'Activate' ?> User">
-                                                    <i class="bi bi-<?= $user->is_active ? 'pause' : 'play' ?>"></i>
-                                                </a>
-                                                <a href="<?= base_url('admin/couriers/delete/' . $courier->id) ?>"
-                                                    type="button"
-                                                    class="btn btn-sm btn-outline-danger"
-                                                    onclick="deleteUser(<?= $user->id ?>, '<?= $user->username ?>')"
-                                                    title="Delete User">
-                                                    <i class="bi bi-trash"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
+                            <?php foreach ($inbounds as $inbound) : ?>
+                                <tr>
+                                    <td><?= $inbound->id ?></td>
+                                    <td><?= $inbound->courier_name ?></td>
+                                    <td><?= $inbound->awb_number ?></td>
+                                    <td>
+                                        <?php if ($inbound->status == 'received') : ?>
+                                            <span class="badge bg-success">Received</span>
+                                        <?php elseif ($inbound->status == 'pending') : ?>
+                                            <span class="badge bg-warning">Pending</span>
+                                        <?php else : ?>
+                                            <span class="badge bg-secondary"><?= ucfirst($inbound->status) ?></span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?= $inbound->receiver_name ?></td>
+                                    <td><?= $inbound->created_at ?></td>
+                                    <td><span class="badge bg-light-info"><?= ucfirst($inbound->created_by) ?></span></td>
+                                    <td><?= $inbound->updated_at ?></td>
+                                    <td><span class="badge bg-light"><?= ucfirst($inbound->updated_by) ?></span></td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <a href="<?= base_url('admin/inbound/show/' . $inbound->id) ?>"
+                                                class="btn btn-sm btn-outline-info"
+                                                title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="<?= base_url('admin/inbound/edit/' . $inbound->id) ?>"
+                                                class="btn btn-sm btn-outline-warning"
+                                                title="Edit inbound">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a href="<?= base_url('admin/inbound/delete/' . $inbound->id) ?>"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('Yakin hapus inbound ini?')"
+                                                title="Delete Inbound">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -129,90 +108,78 @@
     </section>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete user <strong id="deleteUserName"></strong>?</p>
-                <p class="text-danger"><small>This action cannot be undone.</small></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="#" id="confirmDeleteBtn" class="btn btn-danger btn-confirm">Delete User</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Status Toggle Confirmation Modal -->
-<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="statusModalLabel">Confirm Status Change</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p id="statusModalMessage"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="#" id="confirmStatusBtn" class="btn btn-primary btn-confirm">Confirm</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Status Toggle form create Modal -->
+<!-- Add Inbound Modal -->
 <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel33" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
         role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel33">Add New Courier</h4>
+                <h4 class="modal-title" id="myModalLabel33">Add New Inbound</h4>
                 <button type="button" class="close" data-bs-dismiss="modal"
                     aria-label="Close">
                     <i data-feather="x"></i>
                 </button>
             </div>
-            <form action="<?= base_url('admin/couriers/store') ?>" method="POST">
+            <form action="<?= base_url('admin/inbound/store') ?>" method="POST">
                 <div class="modal-body">
-                    <div class="form-group form-floating">
-                        <input type="text" class="form-control" name="name" id="name" placeholder=" " value="">
-                        <?= form_error('name', '<small class="text-danger pl-3">', '</small>') ?>
-                        <label for="name">Courier Name</label>
-                    </div>
-                    <div class="form-group form-floating">
-                        <textarea class="form-control" placeholder=" " name="description" id="description" style="height: 100px; resize: none;"></textarea>
-                        <label for="description">Description(Opsional)</label>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <label class="input-group-text" for="inputGroupSelect01">Status</label>
-                            <select class="form-select" id="inputGroupSelect01" name="status">
-                                <option selected>Choose...</option>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
+                    <h4 class="mb-3">Inbound Information</h4>
+                    <div class="form-group row">
+                        <div class="form-group col-md-4">
+                            <select class="form-select" name="courier_id" id="courier_id">
+                                <option value="">Select Courier</option>
+                                <?php foreach ($couriers as $courier) : ?>
+                                    <option value="<?= $courier->id ?>"><?= $courier->name ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select class="form-select" name="status" id="status">
+                                <option value="">Select Status</option>
+                                <?php foreach ($couriers as $courier) : ?>
+                                    <option value="<?= $courier->status ?>"><?= $courier->status ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
+                    <h4 class="mb-3">Sender Information</h4>
+                    <div class="form-group row g-1 gap-1">
+                        <div class="form-floating col-md-6">
+                            <input type="text" class="form-control" name="sender_name" id="sender_name" placeholder=" ">
+                            <label for="sender_name">Name</label>
+                        </div>
+                        <div class="form-floating col-md-4">
+                            <input type="text" class="form-control" name="sender_phone_number" id="sender_phone_number" placeholder=" ">
+                            <label for="sender_phone_number">Phone Number</label>
+                        </div>
+                    </div>
+                    <div class="form-group form-floating col-md-10">
+                        <textarea class="form-control" placeholder=" " name="address" id="address" style="height: 100px; resize: none;"></textarea>
+                        <label for="address">Address</label>
+                    </div>
+                    <h4 class="mb-3">Receiver Information</h4>
+                    <div class="form-group row g-1 gap-1">
+                        <div class="form-floating col-md-6">
+                            <input type="text" class="form-control" name="sender_name" id="sender_name" placeholder=" ">
+                            <label for="sender_name">Name</label>
+                        </div>
+                        <div class="form-floating col-md-4">
+                            <input type="text" class="form-control" name="sender_phone_number" id="sender_phone_number" placeholder=" ">
+                            <label for="sender_phone_number">Phone Number</label>
+                        </div>
+                    </div>
+                    <div class="form-group form-floating col-md-10">
+                        <textarea class="form-control" placeholder=" " name="address" id="address" style="height: 100px; resize: none;"></textarea>
+                        <label for="address">Address</label>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary"
-                        data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
+                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                         <span class="d-none d-sm-block">Close</span>
                     </button>
-                    <button type="submit" class="btn btn-primary ms-1"
-                        data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Add New Courier</span>
+                    <button type="submit" class="btn btn-primary ms-1">
+                        <span class="d-none d-sm-block">Save Inbound</span>
                     </button>
                 </div>
             </form>
@@ -220,11 +187,10 @@
     </div>
 </div>
 
-<!-- Status Toggle form edit Modal -->
+<!-- Edit Modal (ajax loaded) -->
 <div class="modal fade text-left" id="editModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
-
         </div>
     </div>
 </div>

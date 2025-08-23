@@ -28,11 +28,12 @@ class Courier_model extends CI_Model
      */
     public function getAllCourier($userId)
     {
-        $this->db->select('courier.*, users.username as user_name');
+        $this->db->select('courier.*, u1.username as created_by, u2.username as updated_by');
         $this->db->from($this->table);
-        $this->db->join('users', 'users.id = "' . $userId . '"', 'left');
-        $this->db->where('courier.is_deleted', 0);
+        $this->db->join('users u1', 'u1.id =  courier.created_by', 'left');
+        $this->db->join('users u2', 'u2.id =  courier.updated_by', 'left');
         $this->db->order_by('courier.created_at', 'DESC');
+        return $this->db->get()->result();
 
         $query = $this->db->get();
         return $query->result();

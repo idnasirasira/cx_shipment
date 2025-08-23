@@ -81,10 +81,10 @@
                                         </td>
                                         <td><?= $courier->created_at ?></td>
                                         <td>
-                                            <span class="badge bg-light-info"><?= ucfirst($courier->user_name) ?></span>
+                                            <span class="badge bg-light-info"><?= ucfirst($courier->created_by) ?></span>
                                         </td>
                                         <td><?= $courier->updated_at ?></td>
-                                        <td><span class="badge bg-light"><?= ucfirst($courier->user_name) ?></span></td>
+                                        <td><span class="badge bg-light"><?= ucfirst($courier->updated_by) ?></span></td>
                                         <td>
                                             <div class="d-flex gap-1">
                                                 <a href="<?= base_url('admin/users/show/' . $courier->id) ?>"
